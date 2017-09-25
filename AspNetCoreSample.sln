@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreSample", "AspNetCoreSample\AspNetCoreSample.csproj", "{5B24D44F-9010-48ED-A729-CE17EE81BBFA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{95394AEA-085A-4A55-B4CA-3C1C07D9B787}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookieSample", "src\CookieSample\CookieSample.csproj", "{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDCSample", "src\OIDCSample\OIDCSample.csproj", "{B741B4EA-6FAE-427F-8650-376564FBEF96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthSample", "src\OAuthSample\OAuthSample.csproj", "{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerSample", "src\IdentityServerSample\IdentityServerSample.csproj", "{691319AB-BAA4-4454-9FF7-14436F8EEB3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +19,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5B24D44F-9010-48ED-A729-CE17EE81BBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B24D44F-9010-48ED-A729-CE17EE81BBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B24D44F-9010-48ED-A729-CE17EE81BBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B24D44F-9010-48ED-A729-CE17EE81BBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B741B4EA-6FAE-427F-8650-376564FBEF96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B741B4EA-6FAE-427F-8650-376564FBEF96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B741B4EA-6FAE-427F-8650-376564FBEF96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B741B4EA-6FAE-427F-8650-376564FBEF96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
+		{B741B4EA-6FAE-427F-8650-376564FBEF96} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
+		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
+		{691319AB-BAA4-4454-9FF7-14436F8EEB3C} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D0A0329-7F31-453F-807D-FED2262A86C4}
