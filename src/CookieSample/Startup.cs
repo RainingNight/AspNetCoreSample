@@ -23,6 +23,7 @@ namespace CookieSample
             })
             .AddCookie(options =>
             {
+                options.ClaimsIssuer = "Cookie";
                 options.SessionStore = new MemoryCacheTicketStore();
             });
 
@@ -63,23 +64,23 @@ namespace CookieSample
                     }
                     else
                     {
-                        // 1.0 版本
-                        //var claimIdentity = new ClaimsIdentity("Cookie");
-                        //claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                        //claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
-                        //claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-                        //claimIdentity.AddClaim(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber));
-                        //claimIdentity.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.Birthday.ToString()));
+                        //1.0 版本
+                       var claimIdentity = new ClaimsIdentity("Cookie");
+                        claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                        claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
+                        claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+                        claimIdentity.AddClaim(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber));
+                        claimIdentity.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.Birthday.ToString()));
 
-                        // 2.0 版本 
-                        var claimIdentity = new ClaimsIdentity("Cookie", JwtClaimTypes.Name, JwtClaimTypes.Role);
-                        claimIdentity.AddClaim(new Claim(JwtClaimTypes.Id, user.Id.ToString()));
-                        claimIdentity.AddClaim(new Claim(JwtClaimTypes.Name, user.Name));
-                        claimIdentity.AddClaim(new Claim(JwtClaimTypes.Email, user.Email));
-                        claimIdentity.AddClaim(new Claim(JwtClaimTypes.PhoneNumber, user.PhoneNumber));
-                        claimIdentity.AddClaim(new Claim(JwtClaimTypes.BirthDate, user.Birthday.ToString()));
+                        //// 2.0 版本 
+                        //var claimIdentity = new ClaimsIdentity("Cookie", JwtClaimTypes.Name, JwtClaimTypes.Role);
+                        //claimIdentity.AddClaim(new Claim(JwtClaimTypes.Id, user.Id.ToString()));
+                        //claimIdentity.AddClaim(new Claim(JwtClaimTypes.Name, user.Name));
+                        //claimIdentity.AddClaim(new Claim(JwtClaimTypes.Email, user.Email));
+                        //claimIdentity.AddClaim(new Claim(JwtClaimTypes.PhoneNumber, user.PhoneNumber));
+                        //claimIdentity.AddClaim(new Claim(JwtClaimTypes.BirthDate, user.Birthday.ToString()));
+
                         var claimsPrincipal = new ClaimsPrincipal(claimIdentity);
-
                         // 在上面注册AddAuthentication时，指定了默认的Scheme，在这里便可以不再指定Scheme。
                         await context.SignInAsync(claimsPrincipal);
                         if (string.IsNullOrEmpty(context.Request.Form["ReturnUrl"])) context.Response.Redirect("/");
@@ -90,13 +91,6 @@ namespace CookieSample
 
             // 检查是否已认证
             app.UseAuthorize();
-
-            // 退出
-            app.Map("/Account/Logout", builder => builder.Run(async context =>
-            {
-                await context.SignOutAsync();
-                context.Response.Redirect("/");
-            }));
 
             // 访问个人信息
             app.Map("/profile", builder => builder.Run(async context =>
@@ -110,6 +104,13 @@ namespace CookieSample
                     await res.WriteAsync("<h2>Claims:</h2>");
                     await res.WriteTableHeader(new string[] { "Claim Type", "Value" }, context.User.Claims.Select(c => new string[] { c.Type, c.Value }));
                 });
+            }));
+
+            // 退出
+            app.Map("/Account/Logout", builder => builder.Run(async context =>
+            {
+                await context.SignOutAsync();
+                context.Response.Redirect("/");
             }));
 
             // 首页
