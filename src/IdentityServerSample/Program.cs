@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +19,15 @@ namespace IdentityServerSample
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+                new WebHostBuilder()
+                .UseKestrel(options=>{
+                    options.Listen(IPAddress.Parse("0.0.0.0"), 4000);
+                })
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddConsole();
+                })
                 .UseStartup<Startup>()
                 .Build();
     }
