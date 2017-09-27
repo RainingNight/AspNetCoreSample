@@ -65,7 +65,7 @@ namespace CookieSample
                         else
                         {
                             // 1.0 版本
-                            //var claimIdentity = new ClaimsIdentity("Application");
+                            //var claimIdentity = new ClaimsIdentity("Cookie");
                             //claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                             //claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
                             //claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
@@ -73,7 +73,7 @@ namespace CookieSample
                             //claimIdentity.AddClaim(new Claim(ClaimTypes.DateOfBirth, user.Birthday.ToString()));
 
                             // 2.0 版本 
-                            var claimIdentity = new ClaimsIdentity("Application", JwtClaimTypes.Name, JwtClaimTypes.Role);
+                            var claimIdentity = new ClaimsIdentity("Cookie", JwtClaimTypes.Name, JwtClaimTypes.Role);
                             claimIdentity.AddClaim(new Claim(JwtClaimTypes.Id, user.Id.ToString()));
                             claimIdentity.AddClaim(new Claim(JwtClaimTypes.Name, user.Name));
                             claimIdentity.AddClaim(new Claim(JwtClaimTypes.Email, user.Email));
@@ -127,8 +127,11 @@ namespace CookieSample
                 {
                     await context.Response.WriteHtmlAsync(async res =>
                     {
-                        await res.WriteAsync("<a class=\"btn btn-default\" href=\"/\">返回</a>");
+                        await res.WriteAsync($"<h1>你好，当前登录用户： {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)}</h1>");
+                        await res.WriteAsync("<a class=\"btn btn-default\" href=\"/Account/Logout\">退出</a>");
                         await res.WriteAsync($"<h2>AuthenticationType：{context.User.Identity.AuthenticationType}</h2>");
+
+                        await res.WriteAsync("<h2>Claims:</h2>");
                         await res.WriteTableHeader(new string[] { "Claim Type", "Value" }, context.User.Claims.Select(c => new string[] { c.Type, c.Value }));
                     });
                 };
@@ -139,16 +142,7 @@ namespace CookieSample
             {
                 await context.Response.WriteHtmlAsync(async res =>
                 {
-                    var user = context.User;
-                    if (user?.Identity?.IsAuthenticated ?? false)
-                    {
-                        await res.WriteAsync($"<h2>已登录：{user.Identity.Name}。</h2>");
-                        await res.WriteAsync("<a class=\"btn btn-success\" href=\"/Account/Logout\">退出</a>");
-                    }
-                    else
-                    {
-                        await res.WriteAsync($"<h2>未登录。</h2>");
-                    }
+                    await res.WriteAsync($"<h2>Hello Cookie Authentication</h2>");
                     await res.WriteAsync("<a class=\"btn btn-default\" href=\"/profile\">我的信息</a>");
                 });
             });

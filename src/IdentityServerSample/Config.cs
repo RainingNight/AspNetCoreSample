@@ -43,7 +43,6 @@ namespace IdentityServerSample
                     FrontChannelLogoutUri = "http://localhost:5002/signout-oidc",
                     PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
 
-
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Hybrid,
@@ -55,8 +54,8 @@ namespace IdentityServerSample
                     ClientId = "oauth.code",
                     ClientName = "Server-based Client (Code)",
 
-                    RedirectUris = { "https://notused" },
-                    PostLogoutRedirectUris = { "https://notused" },
+                    RedirectUris = { "http://localhost:5001/signin-oauth" },
+                    PostLogoutRedirectUris = { "http://localhost:5001/signout-oauth" },
 
                     ClientSecrets = { new Secret("secret".Sha256()) },
 

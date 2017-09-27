@@ -33,7 +33,7 @@ namespace OIDCSample
             {
                 o.ClientId = "oidc.hybrid";
                 o.ClientSecret = "secret";
-                o.Authority = "http://localhost:4000/";
+                o.Authority = "https://oidc.faasx.com";
                 o.RequireHttpsMetadata = false;
                 o.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 o.SaveTokens = true;

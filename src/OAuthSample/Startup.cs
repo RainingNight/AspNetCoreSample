@@ -6,23 +6,102 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication;
 
 namespace OAuthSample
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OAuthDefaults.DisplayName;
+            })
+            .AddCookie()
+            .AddOAuth(OAuthDefaults.DisplayName, options =>
+            {
+                options.ClientId = "oauth.code";
+                options.ClientSecret = "secret";
+                options.AuthorizationEndpoint = "https://oidc.faasx.com/connect/authorize";
+                options.TokenEndpoint = "https://oidc.faasx.com/connect/token";
+                options.CallbackPath = "/signin-oauth";
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
+                options.SaveTokens = true;
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            app.Run(async (context) =>
+            app.UseAuthentication();
+
+            // 授权
+            app.Use(async (context, next) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                if (context.Request.Path == "/")
+                {
+                    await next();
+                }
+                else
+                {
+                    var user = context.User;
+                    if (user?.Identity?.IsAuthenticated ?? false)
+                    {
+                        await next();
+                    }
+                    else
+                    {
+                        await context.ChallengeAsync();
+                    }
+                }
+            });
+
+            // 我的信息
+            app.Map("/profile", builder => builder.Use(next =>
+            {
+                return async (context) =>
+                {
+                    await context.Response.WriteHtmlAsync(async res =>
+                    {
+                        await res.WriteAsync($"<h1>你好，当前登录用户： {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)}</h1>");
+                        await res.WriteAsync("<a class=\"btn btn-default\" href=\"/Account/Logout\">退出</a>");
+
+                        await res.WriteAsync($"<h2>AuthenticationType：{context.User.Identity.AuthenticationType}</h2>");
+
+                        await res.WriteAsync("<h2>Claims:</h2>");
+                        await res.WriteTableHeader(new string[] { "Claim Type", "Value" }, context.User.Claims.Select(c => new string[] { c.Type, c.Value }));
+
+                        var result = await context.AuthenticateAsync();
+                        await res.WriteAsync("<h2>Tokens:</h2>");
+                        await res.WriteTableHeader(new string[] { "Token Type", "Value" }, result.Properties.GetTokens().Select(token => new string[] { token.Name, token.Value }));
+                    });
+                };
+            }));
+
+            // 退出
+            app.Map("/Account/Logout", builder => builder.Use(next =>
+            {
+                return async (context) =>
+                {
+                    await context.SignOutAsync();
+                    context.Response.Redirect("/");
+                };
+            }));
+
+            // 首页
+            app.Run(async context =>
+            {
+                await context.Response.WriteHtmlAsync(async res =>
+                {
+                    await res.WriteAsync($"<h2>Hello OAuth Authentication</h2>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/profile\">我的信息</a>");
+                });
             });
         }
     }
