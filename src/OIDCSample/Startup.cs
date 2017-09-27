@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace OIDCSample
 {
@@ -28,7 +29,14 @@ namespace OIDCSample
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(o =>
+            {
+                o.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
+            })
             .AddOpenIdConnect(o =>
             {
                 o.ClientId = "oidc.hybrid";
@@ -38,6 +46,7 @@ namespace OIDCSample
                 o.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 o.SaveTokens = true;
                 o.GetClaimsFromUserInfoEndpoint = true;
+                o.TokenValidationParameters.NameClaimType = "name"; //JwtClaimTypes.Name;
                 o.Events = new OpenIdConnectEvents()
                 {
                     OnAuthenticationFailed = c =>
@@ -75,6 +84,20 @@ namespace OIDCSample
                     RedirectUri = "/signout"
                 });
             }));
+
+
+            // 未授权页面
+            app.Map("/Account/AccessDenied", builder => builder.Run(async context =>
+            {
+                await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await context.Response.WriteHtmlAsync(async res =>
+                {
+                    await res.WriteAsync($"<h1>Access Denied for user {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)} to resource '{HttpResponseExtensions.HtmlEncode(context.Request.Query["ReturnUrl"])}'</h1>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/signout\">Sign Out</a>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/\">Home</a>");
+                });
+            }));
+
 
             // 检查是否已认证
             app.UseAuthorize();

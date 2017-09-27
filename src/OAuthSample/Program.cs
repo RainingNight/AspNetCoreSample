@@ -14,6 +14,7 @@ namespace OAuthSample
         public static IWebHost BuildWebHost(string[] args) =>
                 new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://localhost:5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureLogging((hostingContext, logging) =>
                 {

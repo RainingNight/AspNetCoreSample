@@ -14,6 +14,7 @@ namespace OIDCSample
         public static IWebHost BuildWebHost(string[] args) =>
                 new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://localhost:5002")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureLogging((hostingContext, logging) =>
                 {

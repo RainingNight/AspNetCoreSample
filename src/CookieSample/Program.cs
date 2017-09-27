@@ -14,6 +14,7 @@ namespace CookieSample
         public static IWebHost BuildWebHost(string[] args) =>
                 new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://localhost:5000")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureLogging((hostingContext, logging) =>
                 {
