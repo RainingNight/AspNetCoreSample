@@ -41,8 +41,54 @@ namespace OAuthSample
         {
             app.UseAuthentication();
 
-            // 授权
-            app.Use(async (context, next) =>
+            // 检查是否已认证
+            app.UseAuthorize();
+
+            // 我的信息
+            app.Map("/profile", builder => builder.Run(async context =>
+            {
+                await context.Response.WriteHtmlAsync(async res =>
+                {
+                    await res.WriteAsync($"<h1>你好，当前登录用户： {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)}</h1>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/Account/Logout\">退出</a>");
+
+                    await res.WriteAsync($"<h2>AuthenticationType：{context.User.Identity.AuthenticationType}</h2>");
+
+                    await res.WriteAsync("<h2>Claims:</h2>");
+                    await res.WriteTableHeader(new string[] { "Claim Type", "Value" }, context.User.Claims.Select(c => new string[] { c.Type, c.Value }));
+
+                    var result = await context.AuthenticateAsync();
+                    await res.WriteAsync("<h2>Tokens:</h2>");
+                    await res.WriteTableHeader(new string[] { "Token Type", "Value" }, result.Properties.GetTokens().Select(token => new string[] { token.Name, token.Value }));
+                });
+            }));
+
+
+            // 退出
+            app.Map("/Account/Logout", builder => builder.Run(async context =>
+            {
+                await context.SignOutAsync();
+                context.Response.Redirect("/");
+            }));
+
+            // 首页
+            app.Run(async context =>
+            {
+                await context.Response.WriteHtmlAsync(async res =>
+                {
+                    await res.WriteAsync($"<h2>Hello OAuth Authentication</h2>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/profile\">我的信息</a>");
+                });
+            });
+        }
+    }
+
+    public static class MyAppBuilderExtensions
+    {
+        // 模拟授权实现
+        public static IApplicationBuilder UseAuthorize(this IApplicationBuilder app)
+        {
+            return app.Use(async (context, next) =>
             {
                 if (context.Request.Path == "/")
                 {
@@ -60,48 +106,6 @@ namespace OAuthSample
                         await context.ChallengeAsync();
                     }
                 }
-            });
-
-            // 我的信息
-            app.Map("/profile", builder => builder.Use(next =>
-            {
-                return async (context) =>
-                {
-                    await context.Response.WriteHtmlAsync(async res =>
-                    {
-                        await res.WriteAsync($"<h1>你好，当前登录用户： {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)}</h1>");
-                        await res.WriteAsync("<a class=\"btn btn-default\" href=\"/Account/Logout\">退出</a>");
-
-                        await res.WriteAsync($"<h2>AuthenticationType：{context.User.Identity.AuthenticationType}</h2>");
-
-                        await res.WriteAsync("<h2>Claims:</h2>");
-                        await res.WriteTableHeader(new string[] { "Claim Type", "Value" }, context.User.Claims.Select(c => new string[] { c.Type, c.Value }));
-
-                        var result = await context.AuthenticateAsync();
-                        await res.WriteAsync("<h2>Tokens:</h2>");
-                        await res.WriteTableHeader(new string[] { "Token Type", "Value" }, result.Properties.GetTokens().Select(token => new string[] { token.Name, token.Value }));
-                    });
-                };
-            }));
-
-            // 退出
-            app.Map("/Account/Logout", builder => builder.Use(next =>
-            {
-                return async (context) =>
-                {
-                    await context.SignOutAsync();
-                    context.Response.Redirect("/");
-                };
-            }));
-
-            // 首页
-            app.Run(async context =>
-            {
-                await context.Response.WriteHtmlAsync(async res =>
-                {
-                    await res.WriteAsync($"<h2>Hello OAuth Authentication</h2>");
-                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/profile\">我的信息</a>");
-                });
             });
         }
     }

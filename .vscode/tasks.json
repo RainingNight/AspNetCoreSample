@@ -3,8 +3,7 @@
     "command": "dotnet",
     "isShellCommand": true,
     "args": [],
-    "tasks": [
-        {
+    "tasks": [{
             "taskName": "build",
             "args": [
                 "${workspaceRoot}/src/CookieSample/CookieSample.csproj"
