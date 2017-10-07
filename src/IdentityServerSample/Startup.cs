@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+Ôªøusing Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +20,7 @@ namespace IdentityServerSample
         {
             services.AddMvc();
 
-            // ≈‰÷√IdentitryServer
+            // ÈÖçÁΩÆIdentitryServer
             services.AddIdentityServer()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryApiResources(Config.GetApis())
@@ -48,7 +48,7 @@ namespace IdentityServerSample
                 app.UseExceptionHandler("/Error");
             }
 
-            // ÃÌº”IdentityServer÷–º‰º˛
+            // Ê∑ªÂä†IdentityServer‰∏≠Èó¥‰ª∂
             app.UseIdentityServer();
 
 
