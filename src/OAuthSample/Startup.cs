@@ -34,6 +34,17 @@ namespace OAuthSample
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
                 options.SaveTokens = true;
+                // 事件执行顺序 ：
+                // 1.创建Ticket之前触发
+                options.Events.OnCreatingTicket = context => Task.CompletedTask;
+                // 2.创建Ticket失败时触发
+                options.Events.OnRemoteFailure = context => Task.CompletedTask;
+                // 3.Ticket接收完成之后触发
+                options.Events.OnTicketReceived = context => Task.CompletedTask;
+                // 3.Ticket接收完成之后触发
+                options.Events.OnTicketReceived = context => Task.CompletedTask;
+                // 4.Challenge时触发，默认跳转到OAuth服务器
+                // options.Events.OnRedirectToAuthorizationEndpoint =  context => context.Response.Redirect(context.RedirectUri);
             });
         }
 
@@ -90,7 +101,7 @@ namespace OAuthSample
         {
             return app.Use(async (context, next) =>
             {
-                if (context.Request.Path == "/")
+                if (context.Request.Path == "/" || context.Request.Path == "/favicon.ico")
                 {
                     await next();
                 }

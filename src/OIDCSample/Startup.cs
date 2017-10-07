@@ -41,23 +41,51 @@ namespace OIDCSample
             {
                 o.ClientId = "oidc.hybrid";
                 o.ClientSecret = "secret";
-                o.Authority = "https://oidc.faasx.com";
-                o.RequireHttpsMetadata = false;
-                o.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-                o.SaveTokens = true;
-                o.GetClaimsFromUserInfoEndpoint = true;
-                o.TokenValidationParameters.NameClaimType = "name"; //JwtClaimTypes.Name;
-                o.Events = new OpenIdConnectEvents()
-                {
-                    OnAuthenticationFailed = c =>
-                    {
-                        c.HandleResponse();
 
-                        c.Response.StatusCode = 500;
-                        c.Response.ContentType = "text/plain";
-                        return c.Response.WriteAsync(c.Exception.ToString());
-                    }
-                };
+                o.Authority = "https://oidc.faasx.com/";
+                //o.MetadataAddress = "https://oidc.faasx.com/.well-known/openid-configuration";
+                o.RequireHttpsMetadata = false;
+
+                // 使用混合流
+                o.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                // 是否将Tokens保存到AuthenticationProperties中
+                o.SaveTokens = true;
+                // 是否从UserInfoEndpoint获取Claims
+                o.GetClaimsFromUserInfoEndpoint = true;
+                // 在本示例中，使用的是IdentityServer，而它的ClaimType使用的是JwtClaimTypes。
+                o.TokenValidationParameters.NameClaimType = "name"; //JwtClaimTypes.Name;
+
+                // 以下参数均有对应的默认值，通常无需设置。
+                //o.CallbackPath = new PathString("/signin-oidc");
+                //o.SignedOutCallbackPath = new PathString("/signout-callback-oidc");
+                //o.RemoteSignOutPath = new PathString("/signout-oidc");
+                //o.Scope.Add("openid");
+                //o.Scope.Add("profile");
+                //o.ResponseMode = OpenIdConnectResponseMode.FormPost; 
+
+                /***********************************相关事件***********************************/
+                // 未授权时，重定向到OIDC服务器时触发
+                //o.Events.OnRedirectToIdentityProvider = context => Task.CompletedTask;
+
+                // 获取到授权码时触发
+                //o.Events.OnAuthorizationCodeReceived = context => Task.CompletedTask;
+                // 接收到OIDC服务器返回的认证信息（包含Code, ID Token等）时触发
+                //o.Events.OnMessageReceived = context => Task.CompletedTask;
+                // 接收到TokenEndpoint返回的信息时触发
+                //o.Events.OnTokenResponseReceived = context => Task.CompletedTask;
+                // 验证Token时触发
+                //o.Events.OnTokenValidated = context => Task.CompletedTask;
+                // 接收到UserInfoEndpoint返回的信息时触发
+                //o.Events.OnUserInformationReceived = context => Task.CompletedTask;
+                // 出现异常时触发
+                //o.Events.OnAuthenticationFailed = context => Task.CompletedTask;
+
+                // 退出时，重定向到OIDC服务器时触发
+                //o.Events.OnRedirectToIdentityProviderForSignOut = context => Task.CompletedTask;
+                // OIDC服务器退出后，服务端回调时触发
+                //o.Events.OnRemoteSignOut = context => Task.CompletedTask;
+                // OIDC服务器退出后，客户端重定向时触发
+                //o.Events.OnSignedOutCallbackRedirect = context => Task.CompletedTask;
             });
         }
 
@@ -93,8 +121,8 @@ namespace OIDCSample
                 await context.Response.WriteHtmlAsync(async res =>
                 {
                     await res.WriteAsync($"<h1>Access Denied for user {HttpResponseExtensions.HtmlEncode(context.User.Identity.Name)} to resource '{HttpResponseExtensions.HtmlEncode(context.Request.Query["ReturnUrl"])}'</h1>");
-                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/signout\">Sign Out</a>");
-                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/\">Home</a>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/signout\">退出</a>");
+                    await res.WriteAsync("<a class=\"btn btn-default\" href=\"/\">首页</a>");
                 });
             }));
 
@@ -127,7 +155,7 @@ namespace OIDCSample
                     await context.Response.WriteHtmlAsync(async res =>
                     {
                         await res.WriteAsync($"No refresh_token is available.<br>");
-                        await res.WriteAsync("<a class=\"btn btn-link\" href=\"/signout\">Sign Out</a>");
+                        await res.WriteAsync("<a class=\"btn btn-link\" href=\"/signout\">退出</a>");
                     });
                     return;
                 }
@@ -213,7 +241,7 @@ namespace OIDCSample
         {
             return app.Use(async (context, next) =>
             {
-                if (context.Request.Path == "/")
+                if (context.Request.Path == "/" || context.Request.Path == "/favicon.ico")
                 {
                     await next();
                 }

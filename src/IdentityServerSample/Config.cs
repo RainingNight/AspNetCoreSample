@@ -47,7 +47,8 @@ namespace IdentityServerSample
 
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowedScopes = { "openid", "profile", "email", "api" },
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true,
+                    AllowAccessTokensViaBrowser = true
                 },
                 new Client
                 {
