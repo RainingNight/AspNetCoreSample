@@ -44,7 +44,7 @@ namespace OIDCSample
 
                 o.Authority = "https://oidc.faasx.com/";
                 //o.MetadataAddress = "https://oidc.faasx.com/.well-known/openid-configuration";
-                o.RequireHttpsMetadata = false;
+                //o.RequireHttpsMetadata = false;
 
                 // 使用混合流
                 o.ResponseType = OpenIdConnectResponseType.CodeIdToken;
