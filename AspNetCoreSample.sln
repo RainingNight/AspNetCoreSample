@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{95394AEA-085A-4A55-B4CA-3C1C07D9B787}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookieSample", "src\CookieSample\CookieSample.csproj", "{3AC19A59-DDBD-4B2B-B97D-8A287CCC3176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDCSample", "src\OIDCSample\OIDCSample.csproj", "{B741B4EA-6FAE-427F-8650-376564FBEF96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OIDCSample", "src\OIDCSample\OIDCSample.csproj", "{B741B4EA-6FAE-427F-8650-376564FBEF96}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OAuthSample", "src\OAuthSample\OAuthSample.csproj", "{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerSample", "src\IdentityServerSample\IdentityServerSample.csproj", "{691319AB-BAA4-4454-9FF7-14436F8EEB3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample", "src\IdentityServerSample\IdentityServerSample.csproj", "{691319AB-BAA4-4454-9FF7-14436F8EEB3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtBearerSample", "src\JwtBearerSample\JwtBearerSample.csproj", "{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{691319AB-BAA4-4454-9FF7-14436F8EEB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{B741B4EA-6FAE-427F-8650-376564FBEF96} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
 		{E499FEE6-C9AD-4C2B-AEC1-502A509D4D5E} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
 		{691319AB-BAA4-4454-9FF7-14436F8EEB3C} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
+		{B2DF9019-9658-4EC3-9D67-5FC15F3B29C6} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D0A0329-7F31-453F-807D-FED2262A86C4}

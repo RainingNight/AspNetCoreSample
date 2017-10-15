@@ -36,6 +36,20 @@ namespace IdentityServerSample
             {
                 new Client
                 {
+                    ClientId = "jwt.implicit",
+                    ClientName = "Implicit Client (Web)",
+                    AllowAccessTokensViaBrowser = true,
+
+                    //AccessTokenLifetime = 70,
+
+                    RedirectUris = { "https://notused" },
+                    PostLogoutRedirectUris = { "https://notused" },
+
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedScopes = { "openid", "profile", "email", "api" },
+                },
+                new Client
+                {
                     ClientId = "oidc.hybrid",
                     ClientName = "Server-based Client (Hybrid)",
 

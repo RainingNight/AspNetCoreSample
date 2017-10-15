@@ -1,0 +1,28 @@
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<mat-table #table [dataSource]="forecasts">
+    <ng-container matColumnDef="dateFormatted">
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.dateFormatted}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="temperatureC">
+        <mat-header-cell *matHeaderCellDef> Temp. (C) </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.temperatureC}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="temperatureF">
+        <mat-header-cell *matHeaderCellDef> Temp. (F) </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.temperatureF}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="summary">
+        <mat-header-cell *matHeaderCellDef> Summary </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.summary}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

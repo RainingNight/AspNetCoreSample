@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">
+    <span>JwtBearerSample</span>
+    <button mat-button [routerLink]="['/home']">Home</button>
+    <button mat-button [routerLink]="['/fetch-data']">Fetch data</button>
+    <span class="spacer"></span>
+    <button *ngIf="!loggedIn()" mat-button [routerLink]="['/login']">Log In</button>
+    <button *ngIf="loggedIn()" mat-button (click)="logout()">Log Out</button>
+</mat-toolbar>
