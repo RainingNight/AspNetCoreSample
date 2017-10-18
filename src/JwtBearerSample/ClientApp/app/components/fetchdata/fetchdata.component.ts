@@ -1,45 +1,48 @@
-import {Component, Inject} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
-import {DataSource} from '@angular/cdk/collections';
-import {Observable} from 'rxjs/Observable';
-import {AuthHttp} from 'angular2-jwt';
+import { Component, Inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../services/auth.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 interface WeatherForecast {
-    dateFormatted : string;
-    temperatureC : number;
-    temperatureF : number;
-    summary : string;
+    dateFormatted: string;
+    temperatureC: number;
+    temperatureF: number;
+    summary: string;
 }
 
-@Component({selector: 'fetchdata', templateUrl: './fetchdata.component.html'})
+@Component({
+    selector: 'fetchdata',
+    templateUrl: './fetchdata.component.html'
+})
 export class FetchDataComponent {
-    public forecasts : ExampleDataSource;
+    public forecasts: ExampleDataSource;
     public displayedColumns = ['dateFormatted', 'temperatureC', 'temperatureF', 'summary'];
 
-    constructor(http : AuthHttp, @Inject('BASE_URL')baseUrl : string, private snackBar : MatSnackBar,) {
+    constructor(http: AuthService, @Inject('BASE_URL') baseUrl: string, private snackBar: MatSnackBar, ) {
         this.forecasts = new ExampleDataSource(http, baseUrl, snackBar);
     }
 }
 
-export class ExampleDataSource extends DataSource < any > {
+export class ExampleDataSource extends DataSource<any> {
 
-    constructor(private http : AuthHttp, private baseUrl : string, private snackBar : MatSnackBar) {
+    constructor(private http: AuthService, private baseUrl: string, private snackBar: MatSnackBar) {
         super();
     }
 
-    connect() : Observable < WeatherForecast[] > {
+    connect(): Observable<WeatherForecast[]> {
         return this
             .http
-            .get(this.baseUrl + 'api/SampleData/WeatherForecasts')
+            .AuthGet(this.baseUrl + 'api/SampleData/WeatherForecasts')
             .map(res => res.json())
-            .catch((error : any) => {
+            .catch((error: any) => {
                 if (error.status == 401) {
                     this
                         .snackBar
-                        .open("need sigin", error.statusText, {duration: 2000});
+                        .open("need sigin", error.statusText, { duration: 2000 });
                     return Observable.throw(error.statusText);
                 } else {
                     return Observable.throw("error");
@@ -47,5 +50,5 @@ export class ExampleDataSource extends DataSource < any > {
             });
     }
 
-    disconnect() {}
+    disconnect() { }
 }

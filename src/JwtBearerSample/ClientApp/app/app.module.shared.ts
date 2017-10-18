@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -36,17 +36,17 @@ import {
     MatTooltipModule,
     MatStepperModule
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
+import { CdkTableModule } from '@angular/cdk/table';
 
-import {AuthModule} from './app.auth.module';
+import { AppComponent } from './components/app/app.component';
+import { NavMenuComponent } from './components/navmenu/navmenu.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { CallbackComponent } from './components/callback/callback.component';
+import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 
-import {AppComponent} from './components/app/app.component';
-import {NavMenuComponent} from './components/navmenu/navmenu.component';
-import {HomeComponent} from './components/home/home.component';
-import {LoginComponent} from './components/login/login.component';
-import {FetchDataComponent} from './components/fetchdata/fetchdata.component';
-
-import {AuthenticationService} from './services/authentication.service';
+import { GlobalEventsManager } from './services/global.events.manager';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
     exports: [
@@ -84,21 +84,20 @@ import {AuthenticationService} from './services/authentication.service';
         MatTooltipModule
     ]
 })
-export class PlunkerMaterialModule {}
+export class PlunkerMaterialModule { }
 
 @NgModule({
     declarations: [
-        AppComponent, NavMenuComponent, HomeComponent, LoginComponent, FetchDataComponent
+        AppComponent, NavMenuComponent, HomeComponent, LoginComponent, CallbackComponent, FetchDataComponent
     ],
     providers: [
-        AuthModule, AuthenticationService
+        AuthService, GlobalEventsManager
     ],
     imports: [
         CommonModule,
         HttpModule,
         FormsModule,
         PlunkerMaterialModule,
-        AuthModule,
         RouterModule.forRoot([
             {
                 path: '',
@@ -107,9 +106,13 @@ export class PlunkerMaterialModule {}
             }, {
                 path: 'home',
                 component: HomeComponent
-            }, {
+            },
+            {
                 path: 'login',
                 component: LoginComponent
+            }, {
+                path: 'callback',
+                component: CallbackComponent
             }, {
                 path: 'fetch-data',
                 component: FetchDataComponent
@@ -120,4 +123,4 @@ export class PlunkerMaterialModule {}
         ])
     ]
 })
-export class AppModuleShared {}
+export class AppModuleShared { }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IdentityServer4.Services;
+using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,10 @@ namespace IdentityServerSample
                 .AddInMemoryClients(Config.GetClients())
                 .AddTestUsers(Config.GetUsers())
                 .AddDeveloperSigningCredential();
+
+            // demo versions
+            services.AddTransient<IRedirectUriValidator, DemoRedirectValidator>();
+            services.AddTransient<ICorsPolicyService, DemoCorsPolicy>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
