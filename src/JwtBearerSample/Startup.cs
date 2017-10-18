@@ -1,3 +1,4 @@
+using IdentityModel;
 using JwtBearerSample.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -32,14 +33,21 @@ namespace JwtBearerSample
             })
             .AddJwtBearer(o =>
             {
+                o.Authority = "https://oidc.faasx.com/";
                 o.RequireHttpsMetadata = false;
-                o.SaveToken = true;
+                o.Audience = "api";
+                o.SaveToken = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Consts.Secret)),
+                    NameClaimType = JwtClaimTypes.Name,
+                    RoleClaimType = JwtClaimTypes.Role,
+
+                    // 在正式环境中应该将ValidateIssuer和ValidateAudience设置为ture。
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Consts.Secret))
+
                 };
             });
         }

@@ -23,12 +23,10 @@ namespace IdentityServerSample
         {
             return new List<ApiResource>
             {
-                new ApiResource("api", "Demo API")
-                {
-                    ApiSecrets = { new Secret("secret".Sha256()) }
-                }
+                new ApiResource("api", "Demo API", new[] { JwtClaimTypes.Subject, JwtClaimTypes.Email, JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.PhoneNumber })
             };
         }
+
 
         public static IEnumerable<Client> GetClients()
         {
@@ -36,17 +34,17 @@ namespace IdentityServerSample
             {
                 new Client
                 {
-                    ClientId = "jwt.implicit",
-                    ClientName = "Implicit Client (Web)",
-                    AllowAccessTokensViaBrowser = true,
+                    ClientId = "oauth.code",
+                    ClientName = "Server-based Client (Code)",
 
-                    //AccessTokenLifetime = 70,
+                    RedirectUris = { "http://localhost:5001/signin-oauth" },
+                    PostLogoutRedirectUris = { "http://localhost:5001/signout-oauth" },
 
-                    RedirectUris = { "https://notused" },
-                    PostLogoutRedirectUris = { "https://notused" },
+                    ClientSecrets = { new Secret("secret".Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes = { "openid", "profile", "email", "api" },
+                    AllowOfflineAccess = true
                 },
                 new Client
                 {
@@ -66,18 +64,41 @@ namespace IdentityServerSample
                 },
                 new Client
                 {
-                    ClientId = "oauth.code",
-                    ClientName = "Server-based Client (Code)",
+                    ClientId = "jwt.implicit",
+                    ClientName = "Implicit Client (Web)",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris = { "http://localhost:5001/signin-oauth" },
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-oauth" },
+                    //AccessTokenLifetime = 70,
 
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    RedirectUris = { "http://localhost:5200/callback" },
+                    PostLogoutRedirectUris = { "http://localhost:5200/home" },
+                    AllowedCorsOrigins = { "http://localhost:5200" },
 
-                    AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes = { "openid", "profile", "email", "api" },
-                    AllowOfflineAccess = true
+                },
+                new Client
+                {
+                    ClientId = "client.cc",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "api" }
+                },
+                new Client
+                {
+                    ClientId = "client.rop",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "api" }
                 }
+
             };
         }
 

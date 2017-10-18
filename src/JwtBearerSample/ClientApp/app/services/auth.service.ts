@@ -10,7 +10,7 @@ export class AuthService {
     public _loggedIn: boolean = false;
     _mgr: UserManager;
     _userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
-    _currentUser: User;
+    _currentUser?: User;
     _authHeaders: Headers;
 
     constructor(
@@ -62,6 +62,8 @@ export class AuthService {
                 if (user && user.access_token) {
                     sessionStorage.setItem('oidc.user:https://oidc.faasx.com/:jwt.implicit', JSON.stringify(user));
                     this._loggedIn = true;
+                    this._currentUser = user;
+                    this._globalEventsManager.showNavBar(this._loggedIn);
                 }
             });
     }
@@ -72,6 +74,9 @@ export class AuthService {
 
     logout() {
         sessionStorage.removeItem('oidc.user:https://oidc.faasx.com/:jwt.implicit');
+        this._loggedIn = false;
+        this._currentUser = undefined;
+        this._globalEventsManager.showNavBar(this._loggedIn);
     }
 
     remoteLogout() {
@@ -120,6 +125,7 @@ export class AuthService {
             this._mgr.signinRedirectCallback().then((user) => {
                 console.log("signed in");
                 this._loggedIn = true;
+                this._currentUser = user;
                 this._globalEventsManager.showNavBar(this._loggedIn);
                 this._router.navigate(['home']);
             }).catch(function (err) {
@@ -207,7 +213,7 @@ export class AuthService {
     }
 
 
-    private _setAuthHeaders(user: User) {
+    private _setAuthHeaders(user?: User) {
         this._authHeaders = new Headers();
         if (user) {
             this._authHeaders.append('Authorization', user.token_type + " " + user.access_token);
