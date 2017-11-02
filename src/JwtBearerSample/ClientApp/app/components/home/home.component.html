@@ -1,4 +1,7 @@
-<h1>Hello, world!</h1>
+<h1 *ngIf="user;else other">Hello, {{user!.profile.name}}!</h1>
+<ng-template #other>
+    <h1 #other>Hello, world!</h1>
+</ng-template>
 <mat-card>
     <p>Welcome to your new single-page application, built with:</p>
     <ul>

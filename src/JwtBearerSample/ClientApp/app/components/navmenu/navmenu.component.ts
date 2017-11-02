@@ -24,6 +24,9 @@ export class NavMenuComponent {
         });
     }
 
+    remoteLogin() {
+        this.authService.remoteLogin();
+    }
 
     logout() {
         this.authService.logout();

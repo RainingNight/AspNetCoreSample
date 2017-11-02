@@ -23,10 +23,7 @@ namespace JwtBearerSample.Controllers
         public IActionResult Authenticate([FromBody]UserDto userDto)
         {
             var user = _store.FindUser(userDto.UserName, userDto.Password);
-
-            if (user == null)
-                return Unauthorized();
-
+            if (user == null) return Unauthorized();
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Consts.Secret);
             var authTime = DateTime.UtcNow;
@@ -35,6 +32,8 @@ namespace JwtBearerSample.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim(JwtClaimTypes.Audience,"api"),
+                    new Claim(JwtClaimTypes.Issuer,"http://localhost:5200"),
                     new Claim(JwtClaimTypes.Id, user.Id.ToString()),
                     new Claim(JwtClaimTypes.Name, user.Name),
                     new Claim(JwtClaimTypes.Email, user.Email),

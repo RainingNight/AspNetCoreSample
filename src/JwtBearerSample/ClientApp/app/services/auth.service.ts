@@ -7,10 +7,10 @@ import { GlobalEventsManager } from './global.events.manager';
 
 @Injectable()
 export class AuthService {
-    public _loggedIn: boolean = false;
+    public loggedIn: boolean = false;
+    public currentUser?: User;
     _mgr: UserManager;
     _userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
-    _currentUser?: User;
     _authHeaders: Headers;
 
     constructor(
@@ -26,7 +26,7 @@ export class AuthService {
                 .getUser()
                 .then((user) => {
                     if (user) {
-                        this._currentUser = user;
+                        this.currentUser = user;
                         this._globalEventsManager.showNavBar(true);
                         this._userLoadedEvent.emit(user);
                     }
@@ -61,9 +61,9 @@ export class AuthService {
                 let user = response.json();
                 if (user && user.access_token) {
                     sessionStorage.setItem('oidc.user:https://oidc.faasx.com/:jwt.implicit', JSON.stringify(user));
-                    this._loggedIn = true;
-                    this._currentUser = user;
-                    this._globalEventsManager.showNavBar(this._loggedIn);
+                    this.loggedIn = true;
+                    this.currentUser = user;
+                    this._globalEventsManager.showNavBar(this.loggedIn);
                 }
             });
     }
@@ -74,9 +74,9 @@ export class AuthService {
 
     logout() {
         sessionStorage.removeItem('oidc.user:https://oidc.faasx.com/:jwt.implicit');
-        this._loggedIn = false;
-        this._currentUser = undefined;
-        this._globalEventsManager.showNavBar(this._loggedIn);
+        this.loggedIn = false;
+        this.currentUser = undefined;
+        this._globalEventsManager.showNavBar(this.loggedIn);
     }
 
     remoteLogout() {
@@ -124,9 +124,9 @@ export class AuthService {
         if (typeof window !== 'undefined') {
             this._mgr.signinRedirectCallback().then((user) => {
                 console.log("signed in");
-                this._loggedIn = true;
-                this._currentUser = user;
-                this._globalEventsManager.showNavBar(this._loggedIn);
+                this.loggedIn = true;
+                this.currentUser = user;
+                this._globalEventsManager.showNavBar(this.loggedIn);
                 this._router.navigate(['home']);
             }).catch(function (err) {
                 console.log(err);
@@ -226,7 +226,7 @@ export class AuthService {
         }
         else {
             //setting default authentication headers
-            this._setAuthHeaders(this._currentUser);
+            this._setAuthHeaders(this.currentUser);
             options = new RequestOptions({ headers: this._authHeaders, body: "" });
         }
         return options;

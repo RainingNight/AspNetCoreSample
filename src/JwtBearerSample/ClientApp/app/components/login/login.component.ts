@@ -36,9 +36,4 @@ export class LoginComponent {
                 this.loading = false;
             });
     }
-
-    remoteLogin() {
-        this.authService.remoteLogin();
-    }
-
 }

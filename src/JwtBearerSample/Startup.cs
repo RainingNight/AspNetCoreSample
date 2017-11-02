@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JwtBearerSample
 {
@@ -34,20 +35,25 @@ namespace JwtBearerSample
             .AddJwtBearer(o =>
             {
                 o.Authority = "https://oidc.faasx.com/";
-                o.RequireHttpsMetadata = false;
                 o.Audience = "api";
-                o.SaveToken = false;
+
+                o.Events = new JwtBearerEvents()
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Query["access_token"];
+                        return Task.CompletedTask;
+                    }
+                };
+
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = JwtClaimTypes.Name,
                     RoleClaimType = JwtClaimTypes.Role,
 
-                    // 在正式环境中应该将ValidateIssuer和ValidateAudience设置为ture。
+                    // 鐢ㄤ簬閫傞厤鏈湴妯℃嫙Token
                     ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Consts.Secret))
-
                 };
             });
         }
