@@ -1,8 +1,7 @@
 {
     "version": "2.0.0",
-    "tasks": [
-        {
-            "taskName": "build1",
+    "tasks": [{
+            "label": "BuildCookieSample",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -18,7 +17,7 @@
             ]
         },
         {
-            "taskName": "build2",
+            "label": "BuildOAuthSample",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -34,7 +33,7 @@
             ]
         },
         {
-            "taskName": "build3",
+            "label": "BuildOIDCSample",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -44,6 +43,22 @@
             "args": [
                 "build",
                 "${workspaceRoot}/src/OIDCSample/OIDCSample.csproj"
+            ],
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "BuildAuthorizationSample",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceRoot}/src/AuthorizationSample/AuthorizationSample.csproj"
             ],
             "problemMatcher": [
                 "$msCompile"

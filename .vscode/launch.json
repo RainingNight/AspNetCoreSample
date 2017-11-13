@@ -7,7 +7,7 @@
             "name": ".NET Core Launch (CookieSample)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build1",
+            "preLaunchTask": "BuildCookieSample",
             "program": "${workspaceRoot}/src/CookieSample/bin/Debug/netcoreapp2.0/CookieSample.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src/CookieSample",
@@ -38,7 +38,7 @@
             "name": ".NET Core Launch (OAuth)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build2",
+            "preLaunchTask": "BuildOAuthSample",
             "program": "${workspaceRoot}/src/OAuthSample/bin/Debug/netcoreapp2.0/OAuthSample.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
@@ -68,8 +68,38 @@
             "name": ".NET Core Launch (OIDCSample)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build3",
+            "preLaunchTask": "BuildOIDCSample",
             "program": "${workspaceRoot}/src/OIDCSample/bin/Debug/netcoreapp2.0/OIDCSample.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch (AuthorizationSample)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "BuildAuthorizationSample",
+            "program": "${workspaceRoot}/src/AuthorizationSample/bin/Debug/netcoreapp2.0/AuthorizationSample.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,

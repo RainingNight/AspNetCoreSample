@@ -1,17 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <VersionPrefix>2.0.2</VersionPrefix>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.Extensions.SecurityHelper.Sources" Version="2.1.0-preview1-27569" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="2.1.0-preview1-27569" />
   </ItemGroup>
-  
+
 </Project>
