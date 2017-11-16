@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CookieSample.Data
+namespace AuthorizationSample.Data
 {
     public class UserStore
     {

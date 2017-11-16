@@ -1,0 +1,39 @@
+﻿@model AuthorizationSample.Data.Document
+
+@{
+    ViewData["Title"] = "删除";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>您确定要删除这个文档？</h3>
+<div>
+    <h4>文档信息</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationTime)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="删除" class="btn btn-default" /> |
+        <a asp-action="Index">&lt;&lt;返回列表</a>
+    </form>
+</div>

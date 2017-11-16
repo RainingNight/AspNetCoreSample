@@ -1,0 +1,36 @@
+﻿@model AuthorizationSample.Data.Document
+
+@{
+    ViewData["Title"] = "详细";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>文档信息</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Creator)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">编辑</a> |
+    <a asp-action="Index">&lt;&lt;返回列表</a>
+</div>

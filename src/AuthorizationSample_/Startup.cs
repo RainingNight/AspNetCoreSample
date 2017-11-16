@@ -1,7 +1,5 @@
-﻿using AuthorizationSample.Authorization;
 using AuthorizationSample.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,17 +19,29 @@ namespace AuthorizationSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<UserStore>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie();
+            });
 
             services.AddMvc();
 
-            services.AddSingleton<UserStore>();
-            services.AddSingleton<DocumentStore>();
-            services.AddSingleton<IAuthorizationHandler, DocumentAuthorizationHandler>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Employee", policy => policy
+                    .RequireRole("Admin")
+                    .RequireUserName("Alice")
+                    .RequireClaim("EmployeeNumber")
+                );
+
+
+                options.AddPolicy("User", policy => policy
+                   .RequireAssertion(context => context.User.HasClaim(c => (c.Type == "EmployeeNumber" || c.Type == "Role")))
+                );
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +54,7 @@ namespace AuthorizationSample
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
@@ -55,7 +65,7 @@ namespace AuthorizationSample
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action=Index}/{id?}");
             });
         }
     }

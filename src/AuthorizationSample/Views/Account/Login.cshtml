@@ -1,0 +1,41 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "登录";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <section>
+        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <h4>使用本地账户登入（可用用户：admin, alice, bob 默认密码：111111）。</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="RememberMe">
+                        <input asp-for="RememberMe" />
+                        @Html.DisplayNameFor(m => m.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">登入</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
