@@ -99,10 +99,11 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "BuildAuthorizationSample",
-            "program": "${workspaceRoot}/src/AuthorizationSample/bin/Debug/netcoreapp2.0/AuthorizationSample.dll",
+            "program": "${workspaceFolder}/src/AuthorizationSample/bin/Debug/netcoreapp2.0/AuthorizationSample.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}",
@@ -121,7 +122,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceRoot}/Views"
+                "/Views": "${workspaceFolder}/src/AuthorizationSample/Views"
             }
         }
     ]

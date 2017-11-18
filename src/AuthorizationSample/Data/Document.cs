@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthorizationSample.Authorization;
 
 namespace AuthorizationSample.Data
 {
-    public class Document
+    public class Document : IDocument
     {
         public int Id { get; set; }
 

@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace AuthorizationSample.Controllers
 {
-    public class DocumentsController : Controller
+    [Authorize]
+    public class DocumentController : Controller
     {
 
         private readonly DocumentStore _docStore;
         private readonly IAuthorizationService _authorizationService;
-        private readonly ILogger<DocumentsController> _logger;
+        private readonly ILogger<DocumentController> _logger;
 
-        public DocumentsController(DocumentStore docStore, IAuthorizationService authorizationService, ILogger<DocumentsController> logger)
+        public DocumentController(DocumentStore docStore, IAuthorizationService authorizationService, ILogger<DocumentController> logger)
         {
             _docStore = docStore;
             _authorizationService = authorizationService;
@@ -25,7 +26,7 @@ namespace AuthorizationSample.Controllers
 
 
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View(_docStore.GetAll());
         }
@@ -48,7 +49,7 @@ namespace AuthorizationSample.Controllers
             }
             else
             {
-                return new ChallengeResult();
+                return new ForbidResult();
             }
         }
 
@@ -92,7 +93,7 @@ namespace AuthorizationSample.Controllers
             }
             else
             {
-                return new ChallengeResult();
+                return new ForbidResult();
             }
         }
 
@@ -133,7 +134,7 @@ namespace AuthorizationSample.Controllers
             }
             else
             {
-                return new ChallengeResult();
+                return new ForbidResult();
             }
         }
 
@@ -150,7 +151,7 @@ namespace AuthorizationSample.Controllers
             }
             else
             {
-                return new ChallengeResult();
+                return new ForbidResult();
             }
         }
 

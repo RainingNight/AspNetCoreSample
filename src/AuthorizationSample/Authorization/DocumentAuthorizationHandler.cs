@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace AuthorizationSample.Authorization
 {
-    public class DocumentAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Document>
+    public class DocumentAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, IDocument>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Document resource)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, IDocument resource)
         {
             if (context.User.IsInRole("admin"))
             {
@@ -15,7 +15,7 @@ namespace AuthorizationSample.Authorization
             }
             else
             {
-                if (requirement == Operations.Read)
+                if (requirement == Operations.Create || requirement == Operations.Read)
                 {
                     context.Succeed(requirement);
                 }

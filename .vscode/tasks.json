@@ -50,19 +50,13 @@
         },
         {
             "label": "BuildAuthorizationSample",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "type": "shell",
             "command": "dotnet",
+            "type": "process",
             "args": [
                 "build",
                 "${workspaceRoot}/src/AuthorizationSample/AuthorizationSample.csproj"
             ],
-            "problemMatcher": [
-                "$msCompile"
-            ]
+            "problemMatcher": "$msCompile"
         }
     ]
 }

@@ -1,0 +1,39 @@
+﻿@model AuthorizationSample.Data.User
+
+@{
+    ViewData["Title"] = "删除";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>您确定要删除这个用户？</h3>
+<div>
+    <h4>用户信息</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="删除" class="btn btn-default" /> |
+        <a asp-action="Index">&lt;&lt;返回列表</a>
+    </form>
+</div>

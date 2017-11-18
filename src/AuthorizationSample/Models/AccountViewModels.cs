@@ -13,7 +13,7 @@ namespace AuthorizationSample.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "记住我？")]
         public bool RememberMe { get; set; }
     }
 }

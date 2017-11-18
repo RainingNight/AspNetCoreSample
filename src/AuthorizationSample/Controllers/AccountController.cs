@@ -41,7 +41,7 @@ namespace AuthorizationSample.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = _userStore.FindUser(model.UserName, model.Password);
+                var user = _userStore.Find(model.UserName, model.Password);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "用户名或密码错误。");
