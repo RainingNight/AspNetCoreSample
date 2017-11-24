@@ -62,7 +62,7 @@ namespace CookieSample
                     else
                     {
                         //1.0 版本
-                       var claimIdentity = new ClaimsIdentity("Cookie");
+                        var claimIdentity = new ClaimsIdentity("Cookie");
                         claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                         claimIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
                         claimIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
@@ -135,8 +135,7 @@ namespace CookieSample
                 }
                 else
                 {
-                    var user = context.User;
-                    if (user?.Identity?.IsAuthenticated ?? false)
+                    if (context.User?.Identity?.IsAuthenticated ?? false)
                     {
                         await next();
                     }

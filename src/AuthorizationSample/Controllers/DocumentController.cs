@@ -12,7 +12,6 @@ namespace AuthorizationSample.Controllers
     [Authorize]
     public class DocumentController : Controller
     {
-
         private readonly DocumentStore _docStore;
         private readonly IAuthorizationService _authorizationService;
         private readonly ILogger<DocumentController> _logger;

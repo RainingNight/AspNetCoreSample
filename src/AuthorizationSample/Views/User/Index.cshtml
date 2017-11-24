@@ -6,7 +6,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@if ((await AuthorizationService.AuthorizeAsync(User, AuthorizationSample.Authorization.Permissions.UserCreate)).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, null, new PermissionAuthorizationRequirement(Permissions.UserCreate))).Succeeded)
 {
     <p>
         <a asp-action="Create">创建</a>

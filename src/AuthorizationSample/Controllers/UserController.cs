@@ -22,13 +22,13 @@ namespace AuthorizationSample.Controllers
         }
 
 
-        [Authorize(Policy = Permissions.UserRead)]
+        [PermissionFilter(Permissions.UserRead)]
         public ActionResult Index()
         {
             return View(_userStore.GetAll());
         }
 
-        [Authorize(Policy = Permissions.UserRead)]
+        [PermissionFilter(Permissions.UserRead)]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,13 +43,13 @@ namespace AuthorizationSample.Controllers
             return View(user);
         }
 
-        [Authorize(Policy = Permissions.UserCreate)]
+        [PermissionFilter(Permissions.UserCreate)]
         public ActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Policy = Permissions.UserCreate)]
+        [PermissionFilter(Permissions.UserCreate)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Title")] User user)
@@ -62,7 +62,7 @@ namespace AuthorizationSample.Controllers
             return View(user);
         }
 
-        [Authorize(Policy = Permissions.UserUpdate)]
+        [PermissionFilter(Permissions.UserUpdate)]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,7 +78,7 @@ namespace AuthorizationSample.Controllers
             return View(user);
         }
 
-        [Authorize(Policy = Permissions.UserUpdate)]
+        [PermissionFilter(Permissions.UserUpdate)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Title")] User user)
@@ -96,7 +96,7 @@ namespace AuthorizationSample.Controllers
             return View(user);
         }
 
-        [Authorize(Policy = Permissions.UserDelete)]
+        [PermissionFilter(Permissions.UserDelete)]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -112,7 +112,7 @@ namespace AuthorizationSample.Controllers
             return View(user);
         }
 
-        [Authorize(Policy = Permissions.UserDelete)]
+        [PermissionFilter(Permissions.UserDelete)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

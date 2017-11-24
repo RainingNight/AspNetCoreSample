@@ -247,8 +247,7 @@ namespace OIDCSample
                 }
                 else
                 {
-                    var user = context.User;
-                    if (user?.Identity?.IsAuthenticated ?? false)
+                    if (context.User?.Identity?.IsAuthenticated ?? false)
                     {
                         await next();
                     }
