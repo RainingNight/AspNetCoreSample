@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" PrivateAssets="All" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +26,37 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="ClientApp\app\app.module.browser.ts" />
+    <None Remove="ClientApp\app\app.module.server.ts" />
+    <None Remove="ClientApp\app\app.module.shared.ts" />
+    <None Remove="ClientApp\app\components\app\app.component.ts" />
+    <None Remove="ClientApp\app\components\callback\callback.component.ts" />
+    <None Remove="ClientApp\app\components\fetchdata\fetchdata.component.ts" />
+    <None Remove="ClientApp\app\components\home\home.component.ts" />
+    <None Remove="ClientApp\app\components\login\login.component.ts" />
+    <None Remove="ClientApp\app\components\navmenu\navmenu.component.ts" />
+    <None Remove="ClientApp\app\services\auth.service.ts" />
+    <None Remove="ClientApp\app\services\global.events.manager.ts" />
+    <None Remove="ClientApp\boot.browser.ts" />
+    <None Remove="ClientApp\boot.server.ts" />
+    <None Remove="ClientApp\test\boot-tests.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Security\Microsoft.AspNetCore.Authentication.JwtBearer\Microsoft.AspNetCore.Authentication.JwtBearer.csproj" />
+    <TypeScriptCompile Include="ClientApp\app\app.module.browser.ts" />
+    <TypeScriptCompile Include="ClientApp\app\app.module.server.ts" />
+    <TypeScriptCompile Include="ClientApp\app\app.module.shared.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\app\app.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\callback\callback.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\fetchdata\fetchdata.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\home\home.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\login\login.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\navmenu\navmenu.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\auth.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\global.events.manager.ts" />
+    <TypeScriptCompile Include="ClientApp\boot.browser.ts" />
+    <TypeScriptCompile Include="ClientApp\boot.server.ts" />
+    <TypeScriptCompile Include="ClientApp\test\boot-tests.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
