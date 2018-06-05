@@ -1,12 +1,12 @@
-﻿using CookieSample.Data;
+﻿using System.Linq;
+using System.Security.Claims;
+using CookieSample.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Security.Claims;
 
 namespace CookieSample
 {
