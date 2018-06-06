@@ -1,4 +1,4 @@
-@{ 
+@{
     string name = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
@@ -7,11 +7,11 @@
 }
 
 @if (name != null)
- {
+{
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @name!</a>
+                <a href="#">Hello @name!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
