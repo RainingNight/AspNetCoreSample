@@ -37,6 +37,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerIntegrationId
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{DAB21C84-A7A8-48D7-8EFE-DA1CA716B130}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceLink", "SourceLink", "{AAEECDDE-B805-454B-94DC-D60463758CBA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4", "SourceLink\IdentityServer4\IdentityServer4.csproj", "{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,10 @@ Global
 		{2445038B-1128-434E-8303-25E872B33E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2445038B-1128-434E-8303-25E872B33E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2445038B-1128-434E-8303-25E872B33E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +111,7 @@ Global
 		{703A4626-2A72-493A-B03F-0133A8437EFA} = {DAB21C84-A7A8-48D7-8EFE-DA1CA716B129}
 		{2445038B-1128-434E-8303-25E872B33E39} = {DAB21C84-A7A8-48D7-8EFE-DA1CA716B129}
 		{DAB21C84-A7A8-48D7-8EFE-DA1CA716B130} = {95394AEA-085A-4A55-B4CA-3C1C07D9B787}
+		{D58F3E3A-BA2D-4F3E-8522-9DE5DDE2375F} = {AAEECDDE-B805-454B-94DC-D60463758CBA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D0A0329-7F31-453F-807D-FED2262A86C4}

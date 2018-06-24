@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Console": {
+    "IdentityServerSample": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
