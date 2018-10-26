@@ -1,4 +1,10 @@
-﻿using IdentityModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
@@ -8,12 +14,6 @@ using IdentityServerSample.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace IdentityServerSample.Controllers
 {
@@ -47,7 +47,7 @@ namespace IdentityServerSample.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
         {
-            var vm = await _account.BuildLoginViewModelAsync(returnUrl);
+            LoginViewModel vm = await _account.BuildLoginViewModelAsync(returnUrl);
 
             if (vm.IsExternalLoginOnly)
             {
@@ -83,7 +83,7 @@ namespace IdentityServerSample.Controllers
                     };
 
                     // issue authentication cookie with subject ID and username
-                    var user = _users.FindByUsername(model.Username);
+                    TestUser user = _users.FindByUsername(model.Username);
                     await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
 
                     // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
@@ -99,7 +99,7 @@ namespace IdentityServerSample.Controllers
             }
 
             // something went wrong, show form with error
-            var vm = await _account.BuildLoginViewModelAsync(model);
+            LoginViewModel vm = await _account.BuildLoginViewModelAsync(model);
             return View(vm);
         }
 
@@ -109,7 +109,7 @@ namespace IdentityServerSample.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var vm = await _account.BuildLogoutViewModelAsync(logoutId);
+            LogoutViewModel vm = await _account.BuildLogoutViewModelAsync(logoutId);
 
             if (vm.ShowLogoutPrompt == false)
             {
@@ -127,7 +127,7 @@ namespace IdentityServerSample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutInputModel model)
         {
-            var vm = await _account.BuildLoggedOutViewModelAsync(model.LogoutId);
+            LoggedOutViewModel vm = await _account.BuildLoggedOutViewModelAsync(model.LogoutId);
             if (vm.TriggerExternalSignout)
             {
                 string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
@@ -165,10 +165,10 @@ namespace IdentityServerSample.Controllers
                 // but they don't support the redirect uri, so this URL is re-triggered when we call challenge
                 if (HttpContext.User is WindowsPrincipal)
                 {
-                    var props = new AuthenticationProperties();
+                    AuthenticationProperties props = new AuthenticationProperties();
                     props.Items.Add("scheme", HttpContext.User.Identity.AuthenticationType);
 
-                    var id = new ClaimsIdentity(provider);
+                    ClaimsIdentity id = new ClaimsIdentity(provider);
                     id.AddClaim(new Claim(ClaimTypes.NameIdentifier, HttpContext.User.Identity.Name));
                     id.AddClaim(new Claim(ClaimTypes.Name, HttpContext.User.Identity.Name));
 
@@ -184,7 +184,7 @@ namespace IdentityServerSample.Controllers
             else
             {
                 // start challenge and roundtrip the return URL
-                var props = new AuthenticationProperties
+                AuthenticationProperties props = new AuthenticationProperties
                 {
                     RedirectUri = returnUrl,
                     Items = { { "scheme", provider } }
@@ -200,19 +200,19 @@ namespace IdentityServerSample.Controllers
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
         {
             // read external identity from the temporary cookie
-            var info = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-            var tempUser = info?.Principal;
+            AuthenticateResult info = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+            ClaimsPrincipal tempUser = info?.Principal;
             if (tempUser == null)
             {
                 throw new Exception("External authentication error");
             }
 
             // retrieve claims of the external user
-            var claims = tempUser.Claims.ToList();
+            List<Claim> claims = tempUser.Claims.ToList();
 
             // try to determine the unique id of the external user - the most common claim type for that are the sub claim and the NameIdentifier
             // depending on the external provider, some other claim type might be used
-            var userIdClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject);
+            Claim userIdClaim = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Subject);
             if (userIdClaim == null)
             {
                 userIdClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
@@ -225,11 +225,11 @@ namespace IdentityServerSample.Controllers
             // remove the user id claim from the claims collection and move to the userId property
             // also set the name of the external authentication provider
             claims.Remove(userIdClaim);
-            var provider = info.Properties.Items["scheme"];
-            var userId = userIdClaim.Value;
+            string provider = info.Properties.Items["scheme"];
+            string userId = userIdClaim.Value;
 
             // check if the external user is already provisioned
-            var user = _users.FindByExternalProvider(provider, userId);
+            TestUser user = _users.FindByExternalProvider(provider, userId);
             if (user == null)
             {
                 // this sample simply auto-provisions new external user
@@ -237,10 +237,10 @@ namespace IdentityServerSample.Controllers
                 user = _users.AutoProvisionUser(provider, userId, claims);
             }
 
-            var additionalClaims = new List<Claim>();
+            List<Claim> additionalClaims = new List<Claim>();
 
             // if the external system sent a session id claim, copy it over
-            var sid = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
+            Claim sid = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
             if (sid != null)
             {
                 additionalClaims.Add(new Claim(JwtClaimTypes.SessionId, sid.Value));
@@ -248,7 +248,7 @@ namespace IdentityServerSample.Controllers
 
             // if the external provider issued an id_token, we'll keep it for signout
             AuthenticationProperties props = null;
-            var id_token = info.Properties.GetTokenValue("id_token");
+            string id_token = info.Properties.GetTokenValue("id_token");
             if (id_token != null)
             {
                 props = new AuthenticationProperties();

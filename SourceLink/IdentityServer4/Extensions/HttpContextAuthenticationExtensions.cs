@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using IdentityServer4.Configuration;
 
 namespace Microsoft.AspNetCore.Http
 {
@@ -285,12 +286,19 @@ namespace Microsoft.AspNetCore.Http
 
         internal static async Task<string> GetCookieAuthenticationSchemeAsync(this HttpContext context)
         {
+            var options = context.RequestServices.GetRequiredService<IdentityServerOptions>();
+            if (options.Authentication.CookieAuthenticationScheme != null)
+            {
+                return options.Authentication.CookieAuthenticationScheme;
+            }
+
             var schemes = context.RequestServices.GetRequiredService<IAuthenticationSchemeProvider>();
             var scheme = await schemes.GetDefaultAuthenticateSchemeAsync();
             if (scheme == null)
             {
-                throw new InvalidOperationException($"No DefaultAuthenticateScheme found.");
+                throw new InvalidOperationException($"No DefaultAuthenticateScheme found or no CookieAuthenticationScheme configured on IdentityServerOptions.");
             }
+
             return scheme.Name;
         }
     }

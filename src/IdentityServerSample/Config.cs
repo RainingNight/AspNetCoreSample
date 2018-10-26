@@ -1,9 +1,9 @@
-﻿using IdentityModel;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
-using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace IdentityServerSample
 {
@@ -32,6 +32,36 @@ namespace IdentityServerSample
         {
             return new List<Client>
             {
+                // RegularWebApplications
+                new Client
+                {
+                    ClientId = "RegularWebApplication",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    // Client的显示名称（用于登录和权限确认页面）
+                    ClientName = "Server-based Regular Web Application Client",
+                    // Client的介绍地址（用于权限确认页面）
+                    ClientUri = "http://localhost:5002",
+                    // Client的Logo（用于权限确认页面）
+                    LogoUri = "http://localhost:5002/favicon.ico",
+
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    FrontChannelLogoutUri = "http://localhost:5002/signout-oidc",
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedScopes = { "openid", "profile", "email", "api" },
+                    // 允许获取刷新Token
+                    AllowOfflineAccess = true,
+                    AllowedCorsOrigins = { "http://localhost:5002" },
+
+                    // IdToken的有效期，默认5分钟
+                    IdentityTokenLifetime = 300,
+                    // AccessToken的有效期，默认1小时
+                    AccessTokenLifetime = 3600
+                },
+
+
                 new Client
                 {
                     ClientId = "oauth.code",

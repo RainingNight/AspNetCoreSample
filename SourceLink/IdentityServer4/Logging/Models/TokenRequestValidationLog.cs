@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -26,10 +26,12 @@ namespace IdentityServer4.Logging
 
         public Dictionary<string, string> Raw { get; set; }
 
-        private static readonly string[] SensitiveValuesFilter = {
+        private static readonly string[] SensitiveValuesFilter =
+        {
             OidcConstants.TokenRequest.ClientSecret,
             OidcConstants.TokenRequest.Password,
-            OidcConstants.TokenRequest.ClientAssertion
+            OidcConstants.TokenRequest.ClientAssertion,
+            OidcConstants.TokenRequest.RefreshToken
         };
 
         public TokenRequestValidationLog(ValidatedTokenRequest request)

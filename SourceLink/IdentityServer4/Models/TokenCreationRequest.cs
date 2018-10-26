@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -69,7 +69,10 @@ namespace IdentityServer4.Models
         /// </value>
         public string Nonce { get; set; }
 
-        internal void Validate()
+        /// <summary>
+        /// Called to validate the <see cref="TokenCreationRequest"/> before it is processed.
+        /// </summary>
+        public void Validate()
         {
             if (Resources == null) throw new ArgumentNullException(nameof(Resources));
             if (ValidatedRequest == null) throw new ArgumentNullException(nameof(ValidatedRequest));

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -93,14 +93,25 @@ namespace IdentityServer4.Validation
         public ScopeValidator ValidatedScopes { get; set; }
 
         /// <summary>
+        /// Gets or sets the value of the confirmation method (will become the cnf claim). Must be a JSON object.
+        /// </summary>
+        /// <value>
+        /// The confirmation.
+        /// </value>
+        public string Confirmation { get; set; }
+
+        /// <summary>
         /// Sets the client and the appropriate request specific settings.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="secret">The client secret (optional).</param>
-        public void SetClient(Client client, ParsedSecret secret = null)
+        /// <param name="confirmation">The confirmation.</param>
+        /// <exception cref="ArgumentNullException">client</exception>
+        public void SetClient(Client client, ParsedSecret secret = null, string confirmation = "")
         {
             Client = client ?? throw new ArgumentNullException(nameof(client));
             Secret = secret;
+            Confirmation = confirmation;
 
             AccessTokenLifetime = client.AccessTokenLifetime;
             AccessTokenType = client.AccessTokenType;

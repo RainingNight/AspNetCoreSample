@@ -14,7 +14,6 @@ namespace IdentityServer4
         public const string IdentityServerName               = "IdentityServer4";
         public const string IdentityServerAuthenticationType = IdentityServerName;
         public const string ExternalAuthenticationMethod     = "external";
-        public const string AccessTokenAudience              = "{0}resources";
         public const string DefaultHashAlgorithm             = "SHA256";
 
         public static readonly TimeSpan DefaultCookieTimeSpan = TimeSpan.FromHours(10);

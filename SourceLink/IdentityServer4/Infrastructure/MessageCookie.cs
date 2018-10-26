@@ -90,7 +90,10 @@ namespace IdentityServer4
                 {
                     HttpOnly = true,
                     Secure = Secure,
-                    Path = CookiePath
+                    Path = CookiePath,
+                    IsEssential = true,
+                    // don't need to set same-site since cookie is expected to be sent
+                    // to only another page in this host. 
                 });
         }
 
@@ -136,7 +139,8 @@ namespace IdentityServer4
                     Expires = new DateTime(2000, 1, 1),
                     HttpOnly = true,
                     Secure = Secure,
-                    Path = CookiePath
+                    Path = CookiePath,
+                    IsEssential = true,
                 });
         }
 

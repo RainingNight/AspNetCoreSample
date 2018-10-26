@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -82,10 +82,20 @@ namespace IdentityServer4.Infrastructure
         /// <returns></returns>
         public AuthenticationProperties Unprotect(string protectedText, string purpose)
         {
+            if (String.IsNullOrWhiteSpace(protectedText))
+            {
+                return null;
+            }
+
             // Decrypt the key and retrieve the data from the cache.
             var key = Protector.Unprotect(protectedText);
             var cacheKey = $"{CacheKeyPrefix}-{purpose}-{key}";
             var json = Cache.GetString(cacheKey);
+
+            if (json == null)
+            {
+                return null;
+            }
 
             return ObjectSerializer.FromString<AuthenticationProperties>(json);
         }

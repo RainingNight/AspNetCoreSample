@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -17,7 +17,7 @@ namespace IdentityServer4.Configuration
         /// <value>
         /// The login URL.
         /// </value>
-        public string LoginUrl { get; set; } = Constants.UIConstants.DefaultRoutePaths.Login.EnsureLeadingSlash();
+        public string LoginUrl { get; set; } //= Constants.UIConstants.DefaultRoutePaths.Login.EnsureLeadingSlash();
 
         /// <summary>
         /// Gets or sets the login return URL parameter.
@@ -25,7 +25,7 @@ namespace IdentityServer4.Configuration
         /// <value>
         /// The login return URL parameter.
         /// </value>
-        public string LoginReturnUrlParameter { get; set; } = Constants.UIConstants.DefaultRoutePathParams.Login;
+        public string LoginReturnUrlParameter { get; set; } //= Constants.UIConstants.DefaultRoutePathParams.Login;
 
         /// <summary>
         /// Gets or sets the logout URL. If a local URL, the value must start with a leading slash.
@@ -33,7 +33,7 @@ namespace IdentityServer4.Configuration
         /// <value>
         /// The logout URL.
         /// </value>
-        public string LogoutUrl { get; set; } = Constants.UIConstants.DefaultRoutePaths.Logout.EnsureLeadingSlash();
+        public string LogoutUrl { get; set; } //= Constants.UIConstants.DefaultRoutePaths.Logout.EnsureLeadingSlash();
 
         /// <summary>
         /// Gets or sets the logout identifier parameter.

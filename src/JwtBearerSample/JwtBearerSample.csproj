@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel">
-      <Version>3.7.1</Version>
+      <Version>3.10.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" PrivateAssets="All" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" PrivateAssets="All" Version="2.1.5" />
   </ItemGroup>
 
   <ItemGroup>

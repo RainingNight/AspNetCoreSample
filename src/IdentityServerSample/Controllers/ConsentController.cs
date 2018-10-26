@@ -1,10 +1,10 @@
-﻿using IdentityServer4.Services;
+﻿using System.Threading.Tasks;
+using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServerSample.Models.ConsentViewModels;
 using IdentityServerSample.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace IdentityServerSample.Controllers
 {
@@ -32,7 +32,7 @@ namespace IdentityServerSample.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string returnUrl)
         {
-            var vm = await _consent.BuildViewModelAsync(returnUrl);
+            ConsentViewModel vm = await _consent.BuildViewModelAsync(returnUrl);
             if (vm != null)
             {
                 return View("Index", vm);
@@ -48,7 +48,7 @@ namespace IdentityServerSample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ConsentInputModel model)
         {
-            var result = await _consent.ProcessConsent(model);
+            ProcessConsentResult result = await _consent.ProcessConsent(model);
 
             if (result.IsRedirect)
             {

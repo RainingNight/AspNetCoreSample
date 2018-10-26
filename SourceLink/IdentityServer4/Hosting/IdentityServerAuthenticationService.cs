@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -13,6 +13,7 @@ using IdentityServer4.Extensions;
 using System;
 using IdentityModel;
 using System.Linq;
+using IdentityServer4.Configuration;
 
 namespace IdentityServer4.Hosting
 {
@@ -29,6 +30,7 @@ namespace IdentityServer4.Hosting
         private readonly IAuthenticationSchemeProvider _schemes;
         private readonly ISystemClock _clock;
         private readonly IUserSession _session;
+        private readonly IdentityServerOptions _options;
         private readonly ILogger<IdentityServerAuthenticationService> _logger;
 
         public IdentityServerAuthenticationService(
@@ -36,6 +38,7 @@ namespace IdentityServer4.Hosting
             IAuthenticationSchemeProvider schemes,
             ISystemClock clock,
             IUserSession session,
+            IdentityServerOptions options,
             ILogger<IdentityServerAuthenticationService> logger)
         {
             _inner = decorator.Instance;
@@ -43,11 +46,18 @@ namespace IdentityServer4.Hosting
             _schemes = schemes;
             _clock = clock;
             _session = session;
+            _options = options;
             _logger = logger;
         }
 
+        // todo: remove this in 3.0 and use extension method on http context
         private async Task<string> GetCookieAuthenticationSchemeAsync()
         {
+            if (_options.Authentication.CookieAuthenticationScheme != null)
+            {
+                return _options.Authentication.CookieAuthenticationScheme;
+            }
+
             var scheme = await _schemes.GetDefaultAuthenticateSchemeAsync();
             if (scheme == null)
             {

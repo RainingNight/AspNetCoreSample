@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -7,6 +7,7 @@ using IdentityServer4.Extensions;
 using Microsoft.Extensions.Primitives;
 using IdentityServer4.Hosting;
 using Microsoft.AspNetCore.Http;
+using IdentityModel;
 
 namespace IdentityServer4.Endpoints.Results
 {
@@ -29,6 +30,12 @@ namespace IdentityServer4.Endpoints.Results
             if (Constants.ProtectedResourceErrorStatusCodes.ContainsKey(Error))
             {
                 context.Response.StatusCode = Constants.ProtectedResourceErrorStatusCodes[Error];
+            }
+
+            if (Error == OidcConstants.ProtectedResourceErrors.ExpiredToken)
+            {
+                Error = OidcConstants.ProtectedResourceErrors.InvalidToken;
+                ErrorDescription = "The access token expired";
             }
 
             var errorString = string.Format($"error=\"{Error}\"");
