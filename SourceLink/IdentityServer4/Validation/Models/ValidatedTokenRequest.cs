@@ -75,5 +75,13 @@ namespace IdentityServer4.Validation
         /// The code verifier.
         /// </value>
         public string CodeVerifier { get; set; }
+
+        /// <summary>
+        /// Gets or sets the device code.
+        /// </summary>
+        /// <value>
+        /// The device code.
+        /// </value>
+        public DeviceCode DeviceCode { get; set; }
     }
 }

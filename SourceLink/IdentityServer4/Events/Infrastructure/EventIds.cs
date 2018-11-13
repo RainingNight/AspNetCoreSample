@@ -51,5 +51,10 @@ namespace IdentityServer4.Events
         public const int ConsentGranted = GrantsEventsStart + 0;
         public const int ConsentDenied = GrantsEventsStart + 1;
         public const int GrantsRevoked = GrantsEventsStart + 2;
+
+        private const int DeviceFlowEventsStart = 5000;
+
+        public const int DeviceAuthorizationSuccess = DeviceFlowEventsStart + 0;
+        public const int DeviceAuthorizationFailure = DeviceFlowEventsStart + 1;
     }
 }

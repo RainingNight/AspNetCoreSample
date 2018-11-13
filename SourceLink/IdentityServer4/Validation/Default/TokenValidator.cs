@@ -4,7 +4,6 @@
 
 using IdentityModel;
 using IdentityServer4.Extensions;
-using IdentityServer4.Logging;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.Extensions.Logging;
@@ -17,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using IdentityServer4.Stores;
 using IdentityServer4.Configuration;
+using IdentityServer4.Logging.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 
@@ -379,7 +379,7 @@ namespace IdentityServer4.Validation
             var refreshToken = await _refreshTokenStore.GetRefreshTokenAsync(tokenHandle);
             if (refreshToken == null)
             {
-                _logger.LogError("Invalid refresh token");
+                _logger.LogWarning("Invalid refresh token");
                 return Invalid(OidcConstants.TokenErrors.InvalidGrant);
             }
 
@@ -388,7 +388,7 @@ namespace IdentityServer4.Validation
             /////////////////////////////////////////////
             if (refreshToken.CreationTime.HasExceeded(refreshToken.Lifetime, _clock.UtcNow.DateTime))
             {
-                _logger.LogError("Refresh token has expired. Removing from store.");
+                _logger.LogWarning("Refresh token has expired. Removing from store.");
 
                 await _refreshTokenStore.RemoveRefreshTokenAsync(tokenHandle);
                 return Invalid(OidcConstants.TokenErrors.InvalidGrant);
@@ -489,12 +489,12 @@ namespace IdentityServer4.Validation
 
         private void LogError(string message)
         {
-            _logger.LogError(message + "\n{logMessage}", _log);
+            _logger.LogError(message + "\n{@logMessage}", _log);
         }
 
         private void LogSuccess()
         {
-            _logger.LogDebug("Token validation success\n{logMessage}", _log);
+            _logger.LogDebug("Token validation success\n{@logMessage}", _log);
         }
     }
 }

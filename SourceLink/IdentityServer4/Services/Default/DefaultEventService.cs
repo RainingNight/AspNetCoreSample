@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -61,7 +61,7 @@ namespace IdentityServer4.Events
         /// <exception cref="System.ArgumentNullException">evt</exception>
         public async Task RaiseAsync(Event evt)
         {
-            if (evt == null) throw new ArgumentNullException("evt");
+            if (evt == null) throw new ArgumentNullException(nameof(evt));
 
             if (CanRaiseEvent(evt))
             {
@@ -89,7 +89,7 @@ namespace IdentityServer4.Events
                 case EventTypes.Error:
                     return Options.Events.RaiseErrorEvents;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(evtType));
             }
         }
 

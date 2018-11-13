@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -36,5 +36,8 @@ namespace IdentityServer4.Models
 
         public static ICollection<string> ResourceOwnerPasswordAndClientCredentials =>
             new[] { GrantType.ResourceOwnerPassword, GrantType.ClientCredentials };
+
+        public static ICollection<string> DeviceFlow =>
+            new[] { GrantType.DeviceFlow };
     }
 }

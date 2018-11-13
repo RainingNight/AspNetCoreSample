@@ -90,5 +90,21 @@ namespace IdentityServer4.Configuration
         /// The cookie message threshold.
         /// </value>
         public int CookieMessageThreshold { get; set; } = Constants.UIConstants.CookieMessageThreshold;
+
+        /// <summary>
+        /// Gets or sets the device verification URL.  If a local URL, the value must start with a leading slash.
+        /// </summary>
+        /// <value>
+        /// The device verification URL.
+        /// </value>
+        public string DeviceVerificationUrl { get; set; } = Constants.UIConstants.DefaultRoutePaths.DeviceVerification;
+
+        /// <summary>
+        /// Gets or sets the device verification user code paramater.
+        /// </summary>
+        /// <value>
+        /// The device verification user code parameter.
+        /// </value>
+        public string DeviceVerificationUserCodeParameter { get; set; } = Constants.UIConstants.DefaultRoutePathParams.UserCode;
     }
 }

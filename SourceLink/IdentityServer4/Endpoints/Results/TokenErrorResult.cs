@@ -17,7 +17,7 @@ namespace IdentityServer4.Endpoints.Results
 
         public TokenErrorResult(TokenErrorResponse error)
         {
-            if (error.Error.IsMissing()) throw new ArgumentNullException("Error must be set", nameof(error.Error));
+            if (error.Error.IsMissing()) throw new ArgumentNullException(nameof(error.Error), "Error must be set");
 
             Response = error;
         }

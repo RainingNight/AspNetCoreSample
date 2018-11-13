@@ -80,7 +80,6 @@ namespace IdentityServer4.Configuration
             _idsrv = idsrv;
             _authOptions = authOptions;
             _logger = loggerFactory.CreateLogger("IdentityServer4.Startup");
-
         }
 
         public void PostConfigure(string name, CookieAuthenticationOptions options)

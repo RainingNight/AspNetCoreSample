@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -145,6 +145,11 @@ namespace IdentityServer4.ResponseHandling
                 {
                     entries.Add(OidcConstants.Discovery.IntrospectionEndpoint, baseUrl + Constants.ProtocolRoutePaths.Introspection);
                 }
+
+                if (Options.Endpoints.EnableDeviceAuthorizationEndpoint)
+                {
+                    entries.Add(OidcConstants.Discovery.DeviceAuthorizationEndpoint, baseUrl + Constants.ProtocolRoutePaths.DeviceAuthorization);
+                }
             }
 
             // logout
@@ -226,6 +231,11 @@ namespace IdentityServer4.ResponseHandling
                 if (!(ResourceOwnerValidator is NotSupportedResourceOwnerPasswordValidator))
                 {
                     standardGrantTypes.Add(OidcConstants.GrantTypes.Password);
+                }
+
+                if (Options.Endpoints.EnableDeviceAuthorizationEndpoint)
+                {
+                    standardGrantTypes.Add(OidcConstants.GrantTypes.DeviceCode);
                 }
 
                 var showGrantTypes = new List<string>(standardGrantTypes);

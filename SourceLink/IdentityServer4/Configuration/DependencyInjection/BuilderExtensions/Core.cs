@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Authentication;
 using static IdentityServer4.Constants;
 using IdentityServer4.Extensions;
 using IdentityServer4.Hosting.FederatedSignOut;
+using IdentityServer4.Services.Default;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -80,6 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.AddEndpoint<AuthorizeCallbackEndpoint>(EndpointNames.Authorize, ProtocolRoutePaths.AuthorizeCallback.EnsureLeadingSlash());
             builder.AddEndpoint<AuthorizeEndpoint>(EndpointNames.Authorize, ProtocolRoutePaths.Authorize.EnsureLeadingSlash());
             builder.AddEndpoint<CheckSessionEndpoint>(EndpointNames.CheckSession, ProtocolRoutePaths.CheckSession.EnsureLeadingSlash());
+            builder.AddEndpoint<DeviceAuthorizationEndpoint>(EndpointNames.DeviceAuthorization, ProtocolRoutePaths.DeviceAuthorization.EnsureLeadingSlash());
             builder.AddEndpoint<DiscoveryKeyEndpoint>(EndpointNames.Discovery, ProtocolRoutePaths.DiscoveryWebKeys.EnsureLeadingSlash());
             builder.AddEndpoint<DiscoveryEndpoint>(EndpointNames.Discovery, ProtocolRoutePaths.DiscoveryConfiguration.EnsureLeadingSlash());
             builder.AddEndpoint<EndSessionCallbackEndpoint>(EndpointNames.EndSession, ProtocolRoutePaths.EndSessionCallback.EnsureLeadingSlash());
@@ -150,6 +152,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<ITokenCreationService, DefaultTokenCreationService>();
             builder.Services.TryAddTransient<IClaimsService, DefaultClaimsService>();
             builder.Services.TryAddTransient<IRefreshTokenService, DefaultRefreshTokenService>();
+            builder.Services.TryAddTransient<IDeviceFlowCodeService, DefaultDeviceFlowCodeService>();
             builder.Services.TryAddTransient<IConsentService, DefaultConsentService>();
             builder.Services.TryAddTransient<ICorsPolicyService, DefaultCorsPolicyService>();
             builder.Services.TryAddTransient<IProfileService, DefaultProfileService>();
@@ -158,6 +161,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<IMessageStore<EndSession>, ProtectedDataMessageStore<EndSession>>();
             builder.Services.TryAddTransient<IMessageStore<ErrorMessage>, ProtectedDataMessageStore<ErrorMessage>>();
             builder.Services.TryAddTransient<IIdentityServerInteractionService, DefaultIdentityServerInteractionService>();
+            builder.Services.TryAddTransient<IDeviceFlowInteractionService, DefaultDeviceFlowInteractionService>();
             builder.Services.TryAddTransient<IAuthorizationCodeStore, DefaultAuthorizationCodeStore>();
             builder.Services.TryAddTransient<IRefreshTokenStore, DefaultRefreshTokenStore>();
             builder.Services.TryAddTransient<IReferenceTokenStore, DefaultReferenceTokenStore>();
@@ -166,8 +170,13 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<IPersistentGrantSerializer, PersistentGrantSerializer>();
             builder.Services.TryAddTransient<IEventService, DefaultEventService>();
             builder.Services.TryAddTransient<IEventSink, DefaultEventSink>();
+            builder.Services.TryAddTransient<IUserCodeService, DefaultUserCodeService>();
+            builder.Services.TryAddTransient<IUserCodeGenerator, NumericUserCodeGenerator>();
             builder.Services.AddTransient<IClientSecretValidator, ClientSecretValidator>();
             builder.Services.AddTransient<IApiSecretValidator, ApiSecretValidator>();
+            
+            builder.Services.TryAddTransient<IDeviceFlowThrottlingService, DistributedDeviceFlowThrottlingService>();
+            builder.Services.AddDistributedMemoryCache();
 
             return builder;
         }
@@ -191,6 +200,8 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<ICustomTokenRequestValidator, DefaultCustomTokenRequestValidator>();
             builder.Services.TryAddTransient<IUserInfoRequestValidator, UserInfoRequestValidator>();
             builder.Services.TryAddTransient<IClientConfigurationValidator, DefaultClientConfigurationValidator>();
+            builder.Services.TryAddTransient<IDeviceAuthorizationRequestValidator, DeviceAuthorizationRequestValidator>();
+            builder.Services.TryAddTransient<IDeviceCodeValidator, DeviceCodeValidator>();
 
             // optional
             builder.Services.TryAddTransient<ICustomTokenValidator, DefaultCustomTokenValidator>();
@@ -213,6 +224,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.Services.TryAddTransient<IAuthorizeResponseGenerator, AuthorizeResponseGenerator>();
             builder.Services.TryAddTransient<IDiscoveryResponseGenerator, DiscoveryResponseGenerator>();
             builder.Services.TryAddTransient<ITokenRevocationResponseGenerator, TokenRevocationResponseGenerator>();
+            builder.Services.TryAddTransient<IDeviceAuthorizationResponseGenerator, DeviceAuthorizationResponseGenerator>();
 
             return builder;
         }

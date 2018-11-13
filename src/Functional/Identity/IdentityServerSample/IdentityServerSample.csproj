@@ -8,6 +8,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SourceLink\IdentityServer4\IdentityServer4.csproj" />
+    <ProjectReference Include="..\..\..\..\SourceLink\IdentityServer4\IdentityServer4.csproj" />
   </ItemGroup>
+  
 </Project>

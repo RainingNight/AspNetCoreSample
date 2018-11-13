@@ -7,6 +7,7 @@ using IdentityServer4.Extensions;
 using Microsoft.Extensions.Primitives;
 using IdentityServer4.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using IdentityModel;
 
 namespace IdentityServer4.Endpoints.Results
@@ -41,12 +42,12 @@ namespace IdentityServer4.Endpoints.Results
             var errorString = string.Format($"error=\"{Error}\"");
             if (ErrorDescription.IsMissing())
             {
-                context.Response.Headers.Add("WwwAuthentication", new StringValues(new[] { "Bearer", errorString }));
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues(new[] { "Bearer", errorString }));
             }
             else
             {
                 var errorDescriptionString = string.Format($"error_description=\"{ErrorDescription}\"");
-                context.Response.Headers.Add("WwwAuthentication", new StringValues(new[] { "Bearer", errorString, errorDescriptionString }));
+                context.Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues(new[] { "Bearer", errorString, errorDescriptionString }));
             }
 
             return Task.CompletedTask;

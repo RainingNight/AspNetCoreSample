@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -85,6 +85,11 @@ namespace IdentityServer4.Configuration
         /// Max length for authorization codes
         /// </summary>
         public int AuthorizationCode { get; set; } = Default;
+
+        /// <summary>
+        /// Max length for device codes
+        /// </summary>
+        public int DeviceCode { get; set; } = Default;
 
         /// <summary>
         /// Max length for refresh tokens

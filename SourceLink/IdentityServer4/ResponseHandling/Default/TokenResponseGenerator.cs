@@ -88,6 +88,8 @@ namespace IdentityServer4.ResponseHandling
                     return await ProcessAuthorizationCodeRequestAsync(request);
                 case OidcConstants.GrantTypes.RefreshToken:
                     return await ProcessRefreshTokenRequestAsync(request);
+                case OidcConstants.GrantTypes.DeviceCode:
+                    return await ProcessDeviceCodeRequestAsync(request);
                 default:
                     return await ProcessExtensionGrantRequestAsync(request);
             }
@@ -228,6 +230,68 @@ namespace IdentityServer4.ResponseHandling
         }
 
         /// <summary>
+        /// Processes the response for device code grant request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
+        protected virtual async Task<TokenResponse> ProcessDeviceCodeRequestAsync(TokenRequestValidationResult request)
+        {
+            Logger.LogTrace("Creating response for device code request");
+
+            //////////////////////////
+            // access token
+            /////////////////////////
+            var (accessToken, refreshToken) = await CreateAccessTokenAsync(request.ValidatedRequest);
+            var response = new TokenResponse
+            {
+                AccessToken = accessToken,
+                AccessTokenLifetime = request.ValidatedRequest.AccessTokenLifetime,
+                Custom = request.CustomResponse
+            };
+
+            //////////////////////////
+            // refresh token
+            /////////////////////////
+            if (refreshToken.IsPresent())
+            {
+                response.RefreshToken = refreshToken;
+            }
+
+            //////////////////////////
+            // id token
+            /////////////////////////
+            if (request.ValidatedRequest.DeviceCode.IsOpenId)
+            {
+                // load the client that belongs to the device code
+                Client client = null;
+                if (request.ValidatedRequest.DeviceCode.ClientId != null)
+                {
+                    client = await Clients.FindEnabledClientByIdAsync(request.ValidatedRequest.DeviceCode.ClientId);
+                }
+                if (client == null)
+                {
+                    throw new InvalidOperationException("Client does not exist anymore.");
+                }
+
+                var resources = await Resources.FindEnabledResourcesByScopeAsync(request.ValidatedRequest.DeviceCode.AuthorizedScopes);
+
+                var tokenRequest = new TokenCreationRequest
+                {
+                    Subject = request.ValidatedRequest.DeviceCode.Subject,
+                    Resources = resources,
+                    AccessTokenToHash = response.AccessToken,
+                    ValidatedRequest = request.ValidatedRequest
+                };
+
+                var idToken = await TokenService.CreateIdentityTokenAsync(tokenRequest);
+                var jwt = await TokenService.CreateSecurityTokenAsync(idToken);
+                response.IdentityToken = jwt;
+            }
+
+            return response;
+        }
+
+        /// <summary>
         /// Creates the response for an extension grant request.
         /// </summary>
         /// <param name="request">The request.</param>
@@ -293,6 +357,29 @@ namespace IdentityServer4.ResponseHandling
                 tokenRequest = new TokenCreationRequest
                 {
                     Subject = request.AuthorizationCode.Subject,
+                    Resources = resources,
+                    ValidatedRequest = request
+                };
+            }
+            else if (request.DeviceCode != null)
+            {
+                createRefreshToken = request.DeviceCode.AuthorizedScopes.Contains(IdentityServerConstants.StandardScopes.OfflineAccess);
+
+                Client client = null;
+                if (request.DeviceCode.ClientId != null)
+                {
+                    client = await Clients.FindEnabledClientByIdAsync(request.DeviceCode.ClientId);
+                }
+                if (client == null)
+                {
+                    throw new InvalidOperationException("Client does not exist anymore.");
+                }
+
+                var resources = await Resources.FindEnabledResourcesByScopeAsync(request.DeviceCode.AuthorizedScopes);
+
+                tokenRequest = new TokenCreationRequest
+                {
+                    Subject = request.DeviceCode.Subject,
                     Resources = resources,
                     ValidatedRequest = request
                 };

@@ -111,6 +111,20 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// Adds a persisted grant store.
+        /// </summary>
+        /// <typeparam name="T">The type of the concrete grant store that is registered in DI.</typeparam>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The builder.</returns>
+        public static IIdentityServerBuilder AddPersistedGrantStore<T>(this IIdentityServerBuilder builder)
+            where T : class, IPersistedGrantStore
+        {
+            builder.Services.AddTransient<IPersistedGrantStore, T>();
+
+            return builder;
+        }
+
+        /// <summary>
         /// Adds a CORS policy service.
         /// </summary>
         /// <typeparam name="T">The type of the concrete scope store class that is registered in DI.</typeparam>

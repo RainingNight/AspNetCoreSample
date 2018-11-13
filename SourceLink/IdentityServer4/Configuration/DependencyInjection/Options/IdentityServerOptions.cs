@@ -101,5 +101,10 @@ namespace IdentityServer4.Configuration
         /// Gets or sets the validation options.
         /// </summary>
         public ValidationOptions Validation { get; set; } = new ValidationOptions();
+
+        /// <summary>
+        /// Gets or sets the device flow options.
+        /// </summary>
+        public DeviceFlowOptions DeviceFlow { get; set; } = new DeviceFlowOptions();
     }
 }

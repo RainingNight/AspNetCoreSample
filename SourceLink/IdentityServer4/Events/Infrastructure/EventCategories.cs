@@ -28,5 +28,10 @@ namespace IdentityServer4.Events
         /// Error related events
         /// </summary>
         public const string Error = "Error";
+
+        /// <summary>
+        /// Device flow related events
+        /// </summary>
+        public const string DeviceFlow = "Device";
     }
 }

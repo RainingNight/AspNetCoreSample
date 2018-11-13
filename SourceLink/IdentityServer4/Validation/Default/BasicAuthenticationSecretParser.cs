@@ -121,7 +121,7 @@ namespace IdentityServer4.Validation
         // 2.3.1
         private string Decode(string value)
         {
-            if (value.IsMissing()) return "";
+            if (value.IsMissing()) return string.Empty;
 
             return Uri.UnescapeDataString(value.Replace("+", "%20"));
         }

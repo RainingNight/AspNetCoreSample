@@ -65,6 +65,7 @@ namespace IdentityServer4
             public const string RefreshTokenValidation = "RefreshTokenValidation";
             public const string AuthorizationCodeValidation = "AuthorizationCodeValidation";
             public const string UserInfoRequestValidation = "UserInfoRequestValidation";
+            public const string DeviceCodeValidation = "DeviceCodeValidation";
         }
 
         public static class StandardScopes
@@ -89,6 +90,13 @@ namespace IdentityServer4
             public const string ReferenceToken = "reference_token";
             public const string RefreshToken = "refresh_token";
             public const string UserConsent = "user_consent";
+            public const string DeviceCode = "device_code";
+            public const string UserCode = "user_code";
+        }
+
+        public static class UserCodeTypes
+        {
+            public const string Numeric = "Numeric";
         }
     }
 }

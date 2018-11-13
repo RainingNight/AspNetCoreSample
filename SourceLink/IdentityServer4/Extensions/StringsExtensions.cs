@@ -21,7 +21,7 @@ namespace IdentityServer4.Extensions
         {
             if (list == null)
             {
-                return "";
+                return string.Empty;
             }
 
             var sb = new StringBuilder(100);

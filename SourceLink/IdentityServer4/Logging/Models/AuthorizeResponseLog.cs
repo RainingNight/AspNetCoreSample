@@ -5,7 +5,7 @@
 using IdentityServer4.Extensions;
 using IdentityServer4.ResponseHandling;
 
-namespace IdentityServer4.Logging
+namespace IdentityServer4.Logging.Models
 {
     internal class AuthorizeResponseLog
     {
@@ -18,7 +18,7 @@ namespace IdentityServer4.Logging
         public string Error { get; set; }
         public string ErrorDescription { get; set; }
 
-        
+
         public AuthorizeResponseLog(AuthorizeResponse response)
         {
             ClientId = response.Request?.Client?.ClientId;

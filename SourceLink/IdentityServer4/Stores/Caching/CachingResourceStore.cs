@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -59,7 +59,7 @@ namespace IdentityServer4.Stores
 
         private string GetKey(IEnumerable<string> names)
         {
-            if (names == null || !names.Any()) return "";
+            if (names == null || !names.Any()) return string.Empty;
             return names.OrderBy(x => x).Aggregate((x, y) => x + "," + y);
         }
 

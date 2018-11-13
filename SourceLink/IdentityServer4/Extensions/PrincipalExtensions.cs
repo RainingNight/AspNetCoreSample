@@ -107,7 +107,7 @@ namespace IdentityServer4.Extensions
             var sub = principal.FindFirst(JwtClaimTypes.Subject);
             if (sub != null) return sub.Value;
 
-            return "";
+            return string.Empty;
         }
 
         /// <summary>

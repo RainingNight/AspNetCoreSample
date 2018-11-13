@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -72,5 +72,13 @@ namespace IdentityServer4.Configuration
         /// <c>true</c> if the introspection endpoint is enabled; otherwise, <c>false</c>.
         /// </value>
         public bool EnableIntrospectionEndpoint { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the device authorization endpoint is enabled.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the device authorization endpoint is enabled; otherwise, <c>false</c>.
+        /// </value>
+        public bool EnableDeviceAuthorizationEndpoint { get; set; } = true;
     }
 }
