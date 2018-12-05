@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityServer4.Hosting;
-using IdentityServer4.Stores;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.AspNetCore.Authentication;
-using System.Threading.Tasks;
 using IdentityServer4.Configuration;
 using IdentityServer4.Extensions;
+using IdentityServer4.Hosting;
+using IdentityServer4.Stores;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -50,6 +50,7 @@ namespace Microsoft.AspNetCore.Builder
             if (loggerFactory == null) throw new ArgumentNullException(nameof(loggerFactory));
 
             var logger = loggerFactory.CreateLogger("IdentityServer4.Startup");
+            logger.LogInformation("Starting IdentityServer4 version {version}", typeof(IdentityServerApplicationBuilderExtensions).Assembly.GetName().Version.ToString());
 
             var scopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 
@@ -79,15 +80,29 @@ namespace Microsoft.AspNetCore.Builder
             var options = services.GetRequiredService<IdentityServerOptions>();
             var schemes = services.GetRequiredService<IAuthenticationSchemeProvider>();
 
+
             if (await schemes.GetDefaultAuthenticateSchemeAsync() == null && options.Authentication.CookieAuthenticationScheme == null)
             {
                 logger.LogWarning("No authentication scheme has been set. Setting either a default authentication scheme or a CookieAuthenticationScheme on IdentityServerOptions is required.");
             }
             else
             {
+                AuthenticationScheme authenticationScheme = null;
+
                 if (options.Authentication.CookieAuthenticationScheme != null)
                 {
-                    logger.LogInformation("Using explicitly configured scheme {scheme} for IdentityServer", options.Authentication.CookieAuthenticationScheme);
+                    authenticationScheme = await schemes.GetSchemeAsync(options.Authentication.CookieAuthenticationScheme);
+                    logger.LogInformation("Using explicitly configured authentication scheme {scheme} for IdentityServer", options.Authentication.CookieAuthenticationScheme);
+                }
+                else
+                {
+                    authenticationScheme = await schemes.GetDefaultAuthenticateSchemeAsync();
+                    logger.LogInformation("Using the default authentication scheme {scheme} for IdentityServer", authenticationScheme.Name);
+                }
+
+                if (!typeof(IAuthenticationSignInHandler).IsAssignableFrom(authenticationScheme.HandlerType))
+                {
+                    logger.LogError("Authentication scheme {scheme} is configured for IdentityServer, but it is not a scheme that supports signin (like cookies). Either configure the default authentication scheme with cookies or set the CookieAuthenticationScheme on the IdentityServerOptions.", authenticationScheme.Name);
                 }
 
                 logger.LogDebug("Using {scheme} as default ASP.NET Core scheme for authentication", (await schemes.GetDefaultAuthenticateSchemeAsync())?.Name);

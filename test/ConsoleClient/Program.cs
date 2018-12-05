@@ -12,12 +12,30 @@ namespace ConsoleClient
 
         private static async Task MainAsync()
         {
-            // discover endpoints from metadata
-            var disco = await DiscoveryClient.GetAsync("https://oidc.faasx.com/");
+            var client = new HttpClient();
+
+            // discover endpoints from metadata     
+
+            // Obsolete
+            //var disco = await DiscoveryClient.GetAsync("https://oidc.faasx.com/");
+
+            // New: HttpClient extension methods
+            var disco = await client.GetDiscoveryDocumentAsync("https://oidc.faasx.com/");
 
             // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "client.cc", "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api");
+
+            // Obsolete
+            //var tokenClient = new TokenClient(disco.TokenEndpoint, "client.cc", "secret");
+            //var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api");
+
+            // New: HttpClient extension methods
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = "client.cc",
+                ClientSecret = "secret",
+                Scope = "api"
+            });
 
             if (tokenResponse.IsError)
             {
@@ -29,9 +47,7 @@ namespace ConsoleClient
             Console.WriteLine("\n\n");
 
             // call api
-            var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
-
             var response = await client.GetAsync("http://localhost:5200/api/SampleData/WeatherForecasts");
             if (!response.IsSuccessStatusCode)
             {

@@ -32,6 +32,7 @@ namespace IdentityServer4.Services
         public async Task<DeviceFlowAuthorizationRequest> GetAuthorizationContextAsync(string userCode)
         {
             var deviceAuth = await _devices.FindByUserCodeAsync(userCode);
+            if (deviceAuth == null) return null;
 
             return new DeviceFlowAuthorizationRequest
             {
