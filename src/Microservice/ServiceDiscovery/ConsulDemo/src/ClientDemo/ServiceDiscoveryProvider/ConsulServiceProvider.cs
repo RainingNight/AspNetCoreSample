@@ -26,7 +26,6 @@ namespace ClientDemo.ServiceDiscoveryProvider
             var result = new List<string>();
             foreach (var serviceEntry in queryResult.Response)
             {
-
                 result.Add(serviceEntry.Service.Address + ":" + serviceEntry.Service.Port);
             }
             return result;
