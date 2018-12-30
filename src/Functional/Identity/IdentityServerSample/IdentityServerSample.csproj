@@ -4,11 +4,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="2.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SourceLink\IdentityServer4\IdentityServer4.csproj" />
   </ItemGroup>
   
 </Project>
