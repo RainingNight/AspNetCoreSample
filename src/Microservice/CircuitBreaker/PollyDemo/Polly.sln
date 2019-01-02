@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B4B9CFA6-EEC7-450D-973A-4B7595AA1558}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollyDemo", "src\PollyDemo\PollyDemo.csproj", "{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F6C61B2-57C2-4539-A966-2BD8A4258FBC}"
+	ProjectSection(SolutionItems) = preProject
+		RunServiceA.ps1 = RunServiceA.ps1
+		RunServiceA.sh = RunServiceA.sh
+		RunServiceB.ps1 = RunServiceB.ps1
+		RunServiceB.sh = RunServiceB.sh
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{32626B10-3DDE-4A39-BFD1-C9ABD99BF71E} = {B4B9CFA6-EEC7-450D-973A-4B7595AA1558}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A8F940C-2A2B-408B-8B40-7E54FDB53F4A}
+	EndGlobalSection
+EndGlobal
